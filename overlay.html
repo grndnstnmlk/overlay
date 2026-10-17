@@ -67,26 +67,53 @@
       gap: 7px;
     }
 
-    /* Running Top Ticker Bar */
+    /* Running Top Marquee Ticker Bar (Animasi Mengalir Bergerak) */
     .top-ticker {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(14, 5, 9, 0.92);
+      width: 960px;
+      height: 34px;
+      background: rgba(14, 5, 9, 0.94);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border-outer);
       border-radius: 999px;
-      padding: 4px 18px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: #cbd5e1;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 18, 61, 0.25);
     }
 
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      white-space: nowrap;
+      animation: marqueeHorizontal 22s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeHorizontal {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #cbd5e1;
+    }
+
     .live-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--crimson-core);
       box-shadow: 0 0 8px var(--crimson-core);
@@ -103,15 +130,21 @@
       font-weight: 800;
     }
 
+    .ticker-highlight-red {
+      color: #ff3355;
+      font-weight: 800;
+      text-shadow: 0 0 8px var(--crimson-glow);
+    }
+
     .ticker-separator {
       color: rgba(255, 255, 255, 0.25);
     }
 
-    /* Banner Utama: Lebar 920px (Pas, Tidak Menutupi Tombol Skill/Map & Teks Lega) */
+    /* Banner Utama: Lebar 960px (Luas, Teks Lega & QRIS Besar) */
     .promo-frame {
       position: relative;
-      width: 920px;
-      height: 86px;
+      width: 960px;
+      height: 94px;
       padding: 2px;
       border-radius: 14px;
       background: linear-gradient(135deg, rgba(255, 18, 61, 0.85) 0%, rgba(138, 7, 29, 0.5) 45%, rgba(255, 183, 3, 0.6) 100%);
@@ -153,7 +186,6 @@
       backdrop-filter: blur(12px);
     }
 
-    /* Texture Mesh */
     .promo-container::before {
       content: "";
       position: absolute;
@@ -167,8 +199,8 @@
     /* Dragon Video Avatar Badge (Kiri) */
     .avatar-wrapper {
       position: relative;
-      width: 58px;
-      height: 58px;
+      width: 64px;
+      height: 64px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -191,8 +223,8 @@
 
     .avatar-inner {
       position: relative;
-      width: 52px;
-      height: 52px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       overflow: hidden;
       border: 2px solid #ffffff;
@@ -213,14 +245,14 @@
       flex-direction: column;
       align-items: center;
       gap: 2px;
-      width: 92px;
+      width: 95px;
       flex-shrink: 0;
     }
 
     .promo-tag {
       width: 100%;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #fff;
       text-transform: uppercase;
@@ -269,16 +301,16 @@
     /* Pemisah Garis Vertikal */
     .vertical-divider {
       width: 1px;
-      height: 50px;
+      height: 54px;
       background: linear-gradient(180deg, transparent, rgba(255, 18, 61, 0.6), transparent);
       flex-shrink: 0;
     }
 
-    /* Konten Teks Promo (Lega dan Tidak Terpotong) */
+    /* Konten Teks Promo */
     .promo-content {
       flex: 1;
       position: relative;
-      height: 60px;
+      height: 64px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -307,7 +339,7 @@
 
     .title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 17.5px;
+      font-size: 18px;
       font-weight: 800;
       color: #ffffff;
       display: flex;
@@ -343,7 +375,7 @@
     }
 
     .subtitle {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 500;
       color: var(--text-muted);
       line-height: 1.35;
@@ -367,7 +399,7 @@
     .highlight-price {
       color: var(--amber-gold);
       font-weight: 800;
-      font-size: 13.5px;
+      font-size: 14px;
       text-shadow: 0 0 8px var(--gold-glow);
     }
 
@@ -375,17 +407,17 @@
       color: rgba(255, 255, 255, 0.3);
     }
 
-    /* QRIS Pembayaran Card (Sisi Kanan) */
+    /* QRIS Pembayaran Card Foto Asli (Malikalone) - UKURAN DIPERBESAR SUPAYA MUDAH DI-SCAN */
     .qris-card {
       display: flex;
       align-items: center;
-      gap: 9px;
-      background: rgba(26, 9, 15, 0.9);
-      border: 1px solid var(--border-red);
-      border-radius: 9px;
-      padding: 5px 9px;
+      gap: 10px;
+      background: #17070e;
+      border: 2px solid var(--border-red);
+      border-radius: 11px;
+      padding: 6px 12px;
       flex-shrink: 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(255, 18, 61, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 18, 61, 0.2);
       cursor: pointer;
       transition: all 0.25s ease;
       position: relative;
@@ -393,54 +425,59 @@
 
     .qris-card:hover {
       border-color: var(--amber-gold);
-      box-shadow: 0 0 14px var(--gold-glow);
+      box-shadow: 0 0 16px var(--gold-glow);
+      transform: translateY(-2px);
     }
 
+    /* Thumbnail QRIS Diperbesar ke 72px x 72px */
     .qris-thumb-box {
       position: relative;
-      width: 52px;
-      height: 52px;
+      width: 72px;
+      height: 72px;
       background: #ffffff;
       border-radius: 6px;
-      padding: 2px;
+      padding: 3px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .qris-thumb-img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
     }
 
     .qris-details {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
 
     .qris-top-row {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     .qris-label {
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       color: #ff3355;
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      background: rgba(255, 18, 61, 0.18);
-      padding: 1px 4px;
+      background: rgba(255, 18, 61, 0.2);
+      padding: 1px 5px;
       border-radius: 3px;
     }
 
     .qris-merchant {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.5px;
@@ -448,10 +485,11 @@
     }
 
     .qris-support {
-      font-size: 8.5px;
-      font-weight: 700;
+      font-size: 9px;
+      font-weight: 800;
       color: var(--amber-gold);
       white-space: nowrap;
+      letter-spacing: 0.5px;
     }
 
     /* Segmented Indicator Progress Bar */
@@ -579,7 +617,7 @@
       box-shadow: 0 0 12px var(--crimson-core);
     }
 
-    /* Config Modal (Hotkey S) */
+    /* Modal Konfigurasi Cepat (Hotkey 'S' / 'C') */
     .config-modal {
       position: fixed;
       top: 50%;
@@ -673,16 +711,71 @@
   <!-- Container Utama -->
   <div class="overlay-wrapper">
     
-    <!-- Top Running Ticker (3 Kategori Utama) -->
+    <!-- Top Running Marquee Ticker Bar (Animasi Bergerak Mengalir) -->
     <div class="top-ticker">
-      <span class="live-dot"></span>
-      <span>TOP UP: <span class="ticker-highlight" id="tickerStore">jagestore.shop</span></span>
-      <span class="ticker-separator">•</span>
-      <span>JOKI PRO: <span class="ticker-highlight" id="tickerJoki">12RB / BINTANG</span></span>
-      <span class="ticker-separator">•</span>
-      <span>MABAR VIP: <span class="ticker-highlight" id="tickerMabar">10RB / WIN</span></span>
-      <span class="ticker-separator">•</span>
-      <span>QRIS: <span class="ticker-highlight">Malikalone</span> (All Payment)</span>
+      <div class="ticker-track">
+        <!-- Loop 1 -->
+        <div class="ticker-item">
+          <span>🔥</span>
+          <span class="ticker-highlight-red">TAP TAP LAYAR & SHARE LIVE!</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span class="live-dot"></span>
+          <span>TOP UP MLBB:</span>
+          <span class="ticker-highlight" id="tickerStore">jagestore.shop</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>⚔️</span>
+          <span>JOKI RANK:</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>👑</span>
+          <span>MABAR VIP:</span>
+          <span class="ticker-highlight" id="tickerMabar">10RB / WIN</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>📲</span>
+          <span>QRIS RESMI:</span>
+          <span class="ticker-highlight">Malikalone</span>
+        </div>
+        <span class="ticker-separator">•</span>
+
+        <!-- Duplikat untuk Infinite Scroll yang Mulus -->
+        <div class="ticker-item">
+          <span>🔥</span>
+          <span class="ticker-highlight-red">TAP TAP LAYAR & SHARE LIVE!</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span class="live-dot"></span>
+          <span>TOP UP MLBB:</span>
+          <span class="ticker-highlight">jagestore.shop</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>⚔️</span>
+          <span>JOKI RANK:</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>👑</span>
+          <span>MABAR VIP:</span>
+          <span class="ticker-highlight">10RB / WIN</span>
+        </div>
+        <span class="ticker-separator">•</span>
+        <div class="ticker-item">
+          <span>📲</span>
+          <span>QRIS RESMI:</span>
+          <span class="ticker-highlight">Malikalone</span>
+        </div>
+        <span class="ticker-separator">•</span>
+      </div>
     </div>
 
     <!-- Double-Bezel Frame -->
@@ -731,7 +824,7 @@
             </div>
           </div>
 
-          <!-- Slide 2: JASA JOKI RANK (12rb per bintang) -->
+          <!-- Slide 2: JASA JOKI RANK (Tanpa 12rb, sesuai request) -->
           <div class="slide" id="slide-1">
             <div class="title">
               <span class="icon-chip">⚔️</span>
@@ -739,12 +832,12 @@
               <span class="badge-pill">WINSTREAK</span>
             </div>
             <div class="subtitle">
-              <span class="highlight-price" id="dispJokiPrice">Rp 12.000 / Bintang</span>
+              <span class="highlight-price">Epic → Legend → Mythic → Honor → Immortal</span>
               <span class="highlight-dot">•</span>
-              <span>Epic → Legend → Mythic</span>
+              <span>Pekerjaan Cepat</span>
               <span class="highlight-dot">•</span>
-              <span>Order Cepat di:</span>
-              <span class="highlight-link">jagestore.shop</span>
+              <span>Order di:</span>
+              <span class="highlight-link">DM TIKTOK / WHATSAPP</span>
             </div>
           </div>
 
@@ -766,10 +859,10 @@
 
         </div>
 
-        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) -->
+        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) - Ukuran Lebih Besar -->
         <div class="qris-card" id="qrisCard" title="Klik untuk lihat QRIS ukuran penuh (Malikalone)">
           <div class="qris-thumb-box">
-            <!-- Menggunakan crop QRIS clean dari foto asli agar mudah di-scan kamera HP -->
+            <!-- Menggunakan crop QRIS clean 72px x 72px agar mudah di-scan kamera HP -->
             <img class="qris-thumb-img" src="qris_clean.png" alt="QRIS Malikalone">
           </div>
           <div class="qris-details">
@@ -821,10 +914,6 @@
       <input type="text" id="cfgStoreUrl" value="jagestore.shop">
     </div>
     <div class="form-group">
-      <label>Harga Joki Rank</label>
-      <input type="text" id="cfgJokiPrice" value="Rp 12.000 / Bintang">
-    </div>
-    <div class="form-group">
       <label>Harga Mabar VIP</label>
       <input type="text" id="cfgMabarPrice" value="Rp 10.000 / Win">
     </div>
@@ -839,7 +928,6 @@
     // Konfigurasi & State
     const config = {
       storeUrl: localStorage.getItem('mlbb_store_url') || 'jagestore.shop',
-      jokiPrice: localStorage.getItem('mlbb_joki_price') || 'Rp 12.000 / Bintang',
       mabarPrice: localStorage.getItem('mlbb_mabar_price') || 'Rp 10.000 / Win',
       slideDuration: parseInt(localStorage.getItem('mlbb_duration') || '5000', 10),
     };
@@ -849,10 +937,10 @@
     const badgeSub = document.getElementById('badgeSub');
     const progressLine = document.getElementById('progressLine');
     
-    // Tepat 3 Kategori Promosi
+    // Tepat 3 Kategori Promosi (Memperbaiki bug index undefined)
     const badges = [
       { tag: 'TOP UP', sub: 'JAGÈSTORE' },
-      { tag: 'JOKI RANK', sub: '12K/STAR' },
+      { tag: 'JOKI RANK', sub: 'DM TIKTOK' },
       { tag: 'MABAR VIP', sub: '10K/WIN' }
     ];
 
@@ -865,9 +953,6 @@
       document.getElementById('tickerStore').textContent = cleanStore;
       document.getElementById('dispStoreUrl').textContent = cleanStore;
       
-      document.getElementById('tickerJoki').textContent = '12RB / BINTANG';
-      document.getElementById('dispJokiPrice').textContent = config.jokiPrice;
-      
       document.getElementById('tickerMabar').textContent = '10RB / WIN';
       document.getElementById('dispMabarPrice').textContent = config.mabarPrice;
     }
@@ -877,8 +962,10 @@
       currentIndex = index % slides.length;
       slides[currentIndex].classList.add('active');
       
-      badge.textContent = badges[currentIndex].tag;
-      badgeSub.textContent = badges[currentIndex].sub;
+      if (badges[currentIndex]) {
+        badge.textContent = badges[currentIndex].tag;
+        badgeSub.textContent = badges[currentIndex].sub;
+      }
 
       resetProgressBar();
     }
@@ -949,13 +1036,11 @@
 
     saveConfigBtn.addEventListener('click', () => {
       config.storeUrl = document.getElementById('cfgStoreUrl').value.trim() || 'jagestore.shop';
-      config.jokiPrice = document.getElementById('cfgJokiPrice').value.trim() || 'Rp 12.000 / Bintang';
       config.mabarPrice = document.getElementById('cfgMabarPrice').value.trim() || 'Rp 10.000 / Win';
       const durationSec = parseInt(document.getElementById('cfgDuration').value, 10) || 5;
       config.slideDuration = durationSec * 1000;
 
       localStorage.setItem('mlbb_store_url', config.storeUrl);
-      localStorage.setItem('mlbb_joki_price', config.jokiPrice);
       localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
       localStorage.setItem('mlbb_duration', config.slideDuration.toString());
 
