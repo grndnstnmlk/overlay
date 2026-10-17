@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Blood Serpent Stream Overlay • JAGÈSTORE</title>
+  
+  <!-- Google Fonts: Rajdhani & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: rgba(10, 4, 7, 0.96);
+      --bg-card: rgba(20, 8, 14, 0.96);
+      --crimson-core: #ff123d;
+      --crimson-glow: rgba(255, 18, 61, 0.55);
+      --crimson-dark: #8a071d;
+      --crimson-accent: #ff476d;
+      --amber-gold: #ffb703;
+      --gold-glow: rgba(255, 183, 3, 0.45);
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --border-red: rgba(255, 18, 61, 0.5);
+      --border-outer: rgba(255, 71, 109, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      width: 1920px;
+      height: 1080px;
+      background: transparent;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Canvas Efek Partikel Embers Naga Merah */
+    #emberCanvas {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 1920px;
+      height: 320px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Container Utama Overlay Bawah Tengah */
+    .overlay-wrapper {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* Running Top Ticker Bar */
+    .top-ticker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(14, 5, 9, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-outer);
+      border-radius: 999px;
+      padding: 4px 18px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #cbd5e1;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(255, 18, 61, 0.25);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--crimson-core);
+      box-shadow: 0 0 8px var(--crimson-core);
+      animation: pulseLive 1.4s infinite;
+    }
+
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    .ticker-highlight {
+      color: var(--amber-gold);
+      font-weight: 800;
+    }
+
+    .ticker-separator {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Banner Utama: Lebar 920px (Pas, Tidak Menutupi Tombol Skill/Map & Teks Lega) */
+    .promo-frame {
+      position: relative;
+      width: 920px;
+      height: 86px;
+      padding: 2px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.85) 0%, rgba(138, 7, 29, 0.5) 45%, rgba(255, 183, 3, 0.6) 100%);
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.85),
+        0 0 25px var(--crimson-glow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Ambient Video Reflection di Belakang Frame */
+    .ambient-glow-video {
+      position: absolute;
+      inset: -8px;
+      border-radius: 20px;
+      overflow: hidden;
+      filter: blur(22px) opacity(0.38);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .ambient-glow-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Inner Container Card */
+    .promo-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(18, 7, 12, 0.97) 0%, rgba(10, 4, 7, 0.99) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 14px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Texture Mesh */
+    .promo-container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 18, 61, 0.12) 1px, transparent 1px);
+      background-size: 8px 8px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* Dragon Video Avatar Badge (Kiri) */
+    .avatar-wrapper {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-glow-ring {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--crimson-core), var(--amber-gold), var(--crimson-dark), var(--crimson-core));
+      animation: spinRing 6s linear infinite;
+      box-shadow: 0 0 14px var(--crimson-glow);
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .avatar-inner {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #ffffff;
+      background: #000;
+      z-index: 2;
+    }
+
+    .avatar-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.25);
+    }
+
+    /* Badge Kategori */
+    .badge-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      width: 92px;
+      flex-shrink: 0;
+    }
+
+    .promo-tag {
+      width: 100%;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 6px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--crimson-core), #b80d2b);
+      box-shadow: 0 2px 10px var(--crimson-glow), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .promo-tag::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+      transform: skewX(-20deg);
+      animation: shineBadge 3s infinite;
+    }
+
+    @keyframes shineBadge {
+      0% { left: -100%; }
+      30%, 100% { left: 160%; }
+    }
+
+    .tag-subtext {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--amber-gold);
+      text-align: center;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    /* Pemisah Garis Vertikal */
+    .vertical-divider {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(180deg, transparent, rgba(255, 18, 61, 0.6), transparent);
+      flex-shrink: 0;
+    }
+
+    /* Konten Teks Promo (Lega dan Tidak Terpotong) */
+    .promo-content {
+      flex: 1;
+      position: relative;
+      height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(16px);
+      filter: blur(4px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    .title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17.5px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 0.4px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+    }
+
+    .title .icon-chip {
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .title .badge-pill {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      background: rgba(255, 18, 61, 0.28);
+      color: #ff7590;
+      border: 1px solid rgba(255, 18, 61, 0.55);
+      border-radius: 999px;
+      padding: 1px 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .title .badge-pill.gold {
+      background: rgba(255, 183, 3, 0.2);
+      color: #ffd166;
+      border-color: rgba(255, 183, 3, 0.5);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .highlight-link {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.35), rgba(255, 183, 3, 0.35));
+      border: 1px solid rgba(255, 183, 3, 0.7);
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
+    }
+
+    .highlight-price {
+      color: var(--amber-gold);
+      font-weight: 800;
+      font-size: 13.5px;
+      text-shadow: 0 0 8px var(--gold-glow);
+    }
+
+    .highlight-dot {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* QRIS Pembayaran Card (Sisi Kanan) */
+    .qris-card {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(26, 9, 15, 0.9);
+      border: 1px solid var(--border-red);
+      border-radius: 9px;
+      padding: 5px 9px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 0 8px rgba(255, 18, 61, 0.15);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .qris-card:hover {
+      border-color: var(--amber-gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+
+    .qris-thumb-box {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 2px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
+    }
+
+    .qris-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .qris-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .qris-top-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .qris-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: #ff3355;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: rgba(255, 18, 61, 0.18);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .qris-merchant {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .qris-support {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: var(--amber-gold);
+      white-space: nowrap;
+    }
+
+    /* Segmented Indicator Progress Bar */
+    .progress-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-line {
+      height: 100%;
+      background: linear-gradient(90deg, var(--crimson-core), var(--amber-gold));
+      width: 0%;
+      box-shadow: 0 0 10px var(--crimson-core);
+    }
+
+    /* Modal Popup Full QRIS Foto Malikalone */
+    .qris-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .qris-modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .qris-modal-content {
+      background: #14070c;
+      border: 2px solid var(--crimson-core);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 0 40px var(--crimson-glow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      max-width: 440px;
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+
+    .qris-modal-overlay.active .qris-modal-content {
+      transform: scale(1);
+    }
+
+    .qris-modal-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 18, 61, 0.3);
+      padding-bottom: 8px;
+    }
+
+    .qris-modal-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .qris-modal-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .qris-modal-close:hover { color: #fff; }
+
+    .qris-modal-img {
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .qris-modal-footer {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--amber-gold);
+      text-align: center;
+    }
+
+    /* Floating Config Trigger Button */
+    .config-trigger {
+      position: absolute;
+      bottom: 12px;
+      right: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(18, 7, 12, 0.85);
+      border: 1px solid var(--border-red);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.3;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .config-trigger:hover {
+      opacity: 1;
+      transform: rotate(45deg);
+      color: #fff;
+      box-shadow: 0 0 12px var(--crimson-core);
+    }
+
+    /* Config Modal (Hotkey S) */
+    .config-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 440px;
+      background: #14070b;
+      border: 2px solid var(--crimson-core);
+      border-radius: 16px;
+      padding: 22px;
+      color: #fff;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--crimson-glow);
+      z-index: 999;
+      display: none;
+      opacity: 0;
+      transition: all 0.25s ease-out;
+    }
+
+    .config-modal.show {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .config-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 18, 61, 0.3);
+    }
+
+    .config-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: #0d0407;
+      border: 1px solid rgba(255, 18, 61, 0.4);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--crimson-core);
+      box-shadow: 0 0 8px var(--crimson-glow);
+    }
+
+    .btn-save {
+      width: 100%;
+      background: linear-gradient(135deg, var(--crimson-core), #b80d2b);
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Partikel Embers Naga Merah -->
+  <canvas id="emberCanvas"></canvas>
+
+  <!-- Container Utama -->
+  <div class="overlay-wrapper">
+    
+    <!-- Top Running Ticker (3 Kategori Utama) -->
+    <div class="top-ticker">
+      <span class="live-dot"></span>
+      <span>TOP UP: <span class="ticker-highlight" id="tickerStore">jagestore.shop</span></span>
+      <span class="ticker-separator">•</span>
+      <span>JOKI PRO: <span class="ticker-highlight" id="tickerJoki">12RB / BINTANG</span></span>
+      <span class="ticker-separator">•</span>
+      <span>MABAR VIP: <span class="ticker-highlight" id="tickerMabar">10RB / WIN</span></span>
+      <span class="ticker-separator">•</span>
+      <span>QRIS: <span class="ticker-highlight">Malikalone</span> (All Payment)</span>
+    </div>
+
+    <!-- Double-Bezel Frame -->
+    <div class="promo-frame">
+      
+      <!-- Video Glow Ambient Reflection -->
+      <div class="ambient-glow-video">
+        <video autoplay loop muted playsinline src="Yu Zhong (Blood Serpent) Live Wallpaper.mp4"></video>
+      </div>
+
+      <div class="promo-container">
+        
+        <!-- Yu Zhong Live Avatar -->
+        <div class="avatar-wrapper">
+          <div class="avatar-glow-ring"></div>
+          <div class="avatar-inner">
+            <video class="avatar-video" autoplay loop muted playsinline src="Yu Zhong (Blood Serpent) Live Wallpaper.mp4"></video>
+          </div>
+        </div>
+
+        <!-- Badge Kategori yang Sinkron dengan Slide -->
+        <div class="badge-wrapper">
+          <div class="promo-tag" id="promoBadge">TOP UP</div>
+          <div class="tag-subtext" id="badgeSub">JAGÈSTORE</div>
+        </div>
+
+        <div class="vertical-divider"></div>
+
+        <!-- Carousel Slides: Tepat 3 Kategori Promosi -->
+        <div class="promo-content">
+          
+          <!-- Slide 1: TOP UP DIAMOND -->
+          <div class="slide active" id="slide-0">
+            <div class="title">
+              <span class="icon-chip">💎</span>
+              <span>TOP UP DIAMOND MLBB • RESMI & 100% LEGAL</span>
+              <span class="badge-pill">INSTANT 24 JAM</span>
+            </div>
+            <div class="subtitle">
+              <span>Weekly Pass Rp 26k</span>
+              <span class="highlight-dot">•</span>
+              <span>Order Otomatis di:</span>
+              <span class="highlight-link" id="dispStoreUrl">jagestore.shop</span>
+              <span class="highlight-dot">•</span>
+              <span>Support QRIS & All Payment</span>
+            </div>
+          </div>
+
+          <!-- Slide 2: JASA JOKI RANK (12rb per bintang) -->
+          <div class="slide" id="slide-1">
+            <div class="title">
+              <span class="icon-chip">⚔️</span>
+              <span>JASA JOKI RANK MLBB • FAST & AMANAH</span>
+              <span class="badge-pill">WINSTREAK</span>
+            </div>
+            <div class="subtitle">
+              <span class="highlight-price" id="dispJokiPrice">Rp 12.000 / Bintang</span>
+              <span class="highlight-dot">•</span>
+              <span>Epic → Legend → Mythic</span>
+              <span class="highlight-dot">•</span>
+              <span>Order Cepat di:</span>
+              <span class="highlight-link">jagestore.shop</span>
+            </div>
+          </div>
+
+          <!-- Slide 3: MABAR VIP (10rb per win) -->
+          <div class="slide" id="slide-2">
+            <div class="title">
+              <span class="icon-chip">👑</span>
+              <span>OPEN MABAR VIP STREAMER • MIC ON</span>
+              <span class="badge-pill gold" id="dispMabarPill">10RB / WIN</span>
+            </div>
+            <div class="subtitle">
+              <span class="highlight-price" id="dispMabarPrice">Rp 10.000 / Win</span>
+              <span class="highlight-dot">•</span>
+              <span>Push Rank Bareng Streamer</span>
+              <span class="highlight-dot">•</span>
+              <span>Voice Discord Ready • Slot Terbatas!</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) -->
+        <div class="qris-card" id="qrisCard" title="Klik untuk lihat QRIS ukuran penuh (Malikalone)">
+          <div class="qris-thumb-box">
+            <!-- Menggunakan crop QRIS clean dari foto asli agar mudah di-scan kamera HP -->
+            <img class="qris-thumb-img" src="qris_clean.png" alt="QRIS Malikalone">
+          </div>
+          <div class="qris-details">
+            <div class="qris-top-row">
+              <span class="qris-label">QRIS</span>
+              <span class="qris-merchant">Malikalone</span>
+            </div>
+            <span class="qris-support">⚡ SCAN TO PAY • ALL PAYMENT</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Segmented Countdown Progress Bar -->
+      <div class="progress-bar-container">
+        <div class="progress-line" id="progressLine"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal QRIS Full Size (Foto Asli photo_2026-10-17_21-00-14.jpg) -->
+  <div class="qris-modal-overlay" id="qrisModalOverlay">
+    <div class="qris-modal-content">
+      <div class="qris-modal-header">
+        <span class="qris-modal-title">QRIS PEMBAYARAN RESMI</span>
+        <button class="qris-modal-close" id="closeQrisModalBtn">&times;</button>
+      </div>
+      <img class="qris-modal-img" src="photo_2026-10-17_21-00-14.jpg" alt="QRIS Pembayaran Malikalone">
+      <div class="qris-modal-footer">
+        NMID: ID1026517657932 • A01 • SATU QRIS UNTUK SEMUA (BCA, DANA, GOPAY, OVO, DLL)
+      </div>
+    </div>
+  </div>
+
+  <!-- Trigger Pengaturan Cepat -->
+  <div class="config-trigger" id="configTrigger" title="Tekan 'S' untuk buka pengaturan">
+    ⚙️
+  </div>
+
+  <!-- Modal Konfigurasi Cepat (Hotkey 'S' / 'C') -->
+  <div class="config-modal" id="configModal">
+    <div class="config-header">
+      <div class="config-title">⚙️ PENGATURAN OVERLAY STREAM</div>
+      <button class="qris-modal-close" id="closeConfigModalBtn">&times;</button>
+    </div>
+    <div class="form-group">
+      <label>Website Top Up</label>
+      <input type="text" id="cfgStoreUrl" value="jagestore.shop">
+    </div>
+    <div class="form-group">
+      <label>Harga Joki Rank</label>
+      <input type="text" id="cfgJokiPrice" value="Rp 12.000 / Bintang">
+    </div>
+    <div class="form-group">
+      <label>Harga Mabar VIP</label>
+      <input type="text" id="cfgMabarPrice" value="Rp 10.000 / Win">
+    </div>
+    <div class="form-group">
+      <label>Durasi Tiap Slide (Detik)</label>
+      <input type="number" id="cfgDuration" value="5" min="2" max="20">
+    </div>
+    <button class="btn-save" id="saveConfigBtn">SIMPAN PENGATURAN</button>
+  </div>
+
+  <script>
+    // Konfigurasi & State
+    const config = {
+      storeUrl: localStorage.getItem('mlbb_store_url') || 'jagestore.shop',
+      jokiPrice: localStorage.getItem('mlbb_joki_price') || 'Rp 12.000 / Bintang',
+      mabarPrice: localStorage.getItem('mlbb_mabar_price') || 'Rp 10.000 / Win',
+      slideDuration: parseInt(localStorage.getItem('mlbb_duration') || '5000', 10),
+    };
+
+    const slides = document.querySelectorAll('.slide');
+    const badge = document.getElementById('promoBadge');
+    const badgeSub = document.getElementById('badgeSub');
+    const progressLine = document.getElementById('progressLine');
+    
+    // Tepat 3 Kategori Promosi
+    const badges = [
+      { tag: 'TOP UP', sub: 'JAGÈSTORE' },
+      { tag: 'JOKI RANK', sub: '12K/STAR' },
+      { tag: 'MABAR VIP', sub: '10K/WIN' }
+    ];
+
+    let currentIndex = 0;
+    let progressStartTime = 0;
+    let animFrame = null;
+
+    function applyConfig() {
+      const cleanStore = config.storeUrl.replace(/^https?:\/\//, '');
+      document.getElementById('tickerStore').textContent = cleanStore;
+      document.getElementById('dispStoreUrl').textContent = cleanStore;
+      
+      document.getElementById('tickerJoki').textContent = '12RB / BINTANG';
+      document.getElementById('dispJokiPrice').textContent = config.jokiPrice;
+      
+      document.getElementById('tickerMabar').textContent = '10RB / WIN';
+      document.getElementById('dispMabarPrice').textContent = config.mabarPrice;
+    }
+
+    function goToSlide(index) {
+      slides[currentIndex].classList.remove('active');
+      currentIndex = index % slides.length;
+      slides[currentIndex].classList.add('active');
+      
+      badge.textContent = badges[currentIndex].tag;
+      badgeSub.textContent = badges[currentIndex].sub;
+
+      resetProgressBar();
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function resetProgressBar() {
+      progressStartTime = performance.now();
+      if (animFrame) cancelAnimationFrame(animFrame);
+
+      function updateProgress(now) {
+        const elapsed = now - progressStartTime;
+        const progress = Math.min((elapsed / config.slideDuration) * 100, 100);
+        progressLine.style.width = progress + '%';
+
+        if (elapsed < config.slideDuration) {
+          animFrame = requestAnimationFrame(updateProgress);
+        } else {
+          nextSlide();
+        }
+      }
+
+      animFrame = requestAnimationFrame(updateProgress);
+    }
+
+    // Modal QRIS Full Size
+    const qrisCard = document.getElementById('qrisCard');
+    const qrisModal = document.getElementById('qrisModalOverlay');
+    const closeQrisModalBtn = document.getElementById('closeQrisModalBtn');
+
+    function toggleQrisModal() {
+      qrisModal.classList.toggle('active');
+    }
+
+    qrisCard.addEventListener('click', toggleQrisModal);
+    closeQrisModalBtn.addEventListener('click', toggleQrisModal);
+    qrisModal.addEventListener('click', (e) => {
+      if (e.target === qrisModal) toggleQrisModal();
+    });
+
+    // Modal Konfigurasi Cepat
+    const configModal = document.getElementById('configModal');
+    const configTrigger = document.getElementById('configTrigger');
+    const closeConfigModalBtn = document.getElementById('closeConfigModalBtn');
+    const saveConfigBtn = document.getElementById('saveConfigBtn');
+
+    function toggleConfigModal() {
+      configModal.classList.toggle('show');
+    }
+
+    configTrigger.addEventListener('click', toggleConfigModal);
+    closeConfigModalBtn.addEventListener('click', toggleConfigModal);
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C') && document.activeElement.tagName !== 'INPUT') {
+        toggleConfigModal();
+      }
+      if ((e.key === 'q' || e.key === 'Q') && document.activeElement.tagName !== 'INPUT') {
+        toggleQrisModal();
+      }
+      if (e.key === 'Escape') {
+        if (configModal.classList.contains('show')) toggleConfigModal();
+        if (qrisModal.classList.contains('active')) toggleQrisModal();
+      }
+    });
+
+    saveConfigBtn.addEventListener('click', () => {
+      config.storeUrl = document.getElementById('cfgStoreUrl').value.trim() || 'jagestore.shop';
+      config.jokiPrice = document.getElementById('cfgJokiPrice').value.trim() || 'Rp 12.000 / Bintang';
+      config.mabarPrice = document.getElementById('cfgMabarPrice').value.trim() || 'Rp 10.000 / Win';
+      const durationSec = parseInt(document.getElementById('cfgDuration').value, 10) || 5;
+      config.slideDuration = durationSec * 1000;
+
+      localStorage.setItem('mlbb_store_url', config.storeUrl);
+      localStorage.setItem('mlbb_joki_price', config.jokiPrice);
+      localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
+      localStorage.setItem('mlbb_duration', config.slideDuration.toString());
+
+      applyConfig();
+      resetProgressBar();
+      toggleConfigModal();
+    });
+
+    // Canvas Partikel Embers Naga Merah (Yu Zhong)
+    const canvas = document.getElementById('emberCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = 1920;
+      canvas.height = 320;
+    }
+
+    class EmberParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = 960 + (Math.random() - 0.5) * 1000;
+        this.y = 320 + Math.random() * 20;
+        this.size = Math.random() * 2.8 + 1;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.speedX = (Math.random() - 0.5) * 0.8;
+        this.alpha = Math.random() * 0.7 + 0.3;
+        this.colorType = Math.random() > 0.3 ? 'red' : 'gold';
+      }
+
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        this.alpha -= 0.0035;
+
+        if (this.alpha <= 0 || this.y < 0) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        if (this.colorType === 'red') {
+          ctx.fillStyle = '#ff123d';
+          ctx.shadowColor = '#ff123d';
+        } else {
+          ctx.fillStyle = '#ffb703';
+          ctx.shadowColor = '#ffb703';
+        }
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function initParticles() {
+      resizeCanvas();
+      particles = [];
+      for (let i = 0; i < 50; i++) {
+        const p = new EmberParticle();
+        p.y = Math.random() * 320;
+        particles.push(p);
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    // Jalankan Inisialisasi
+    applyConfig();
+    resetProgressBar();
+    initParticles();
+    animateParticles();
+  </script>
+</body>
+</html>
