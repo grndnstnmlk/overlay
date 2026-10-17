@@ -1,0 +1,97 @@
+================================================================================
+          PANDUAN LENGKAP CARA MEMASANG OVERLAY STREAMING MLBB
+             (TikTok Live Studio & OBS Studio / Streamlabs)
+================================================================================
+Repository GitHub : https://github.com/grndnstnmlk/overlay
+Website Top Up    : jagestore.shop
+QRIS Resmi        : Malikalone (NMID: ID1026517657932)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. LINK URL OVERLAY RESMI (GITHUB PAGES)
+--------------------------------------------------------------------------------
+Gunakan link https:// di bawah ini untuk dimasukkan ke TikTok Live Studio / OBS:
+
+A. VERSI VERTIKAL (Khusus TikTok Live Studio - Resolusi 1080 x 1920):
+   👉 https://grndnstnmlk.github.io/overlay/
+   (atau: https://grndnstnmlk.github.io/overlay/overlay_vertical.html)
+
+B. VERSI HORIZONTAL (Khusus OBS Studio / YouTube / Facebook - Resolusi 1920 x 1080):
+   👉 https://grndnstnmlk.github.io/overlay/overlay.html
+
+--------------------------------------------------------------------------------
+2. CARA PASANG DI TIKTOK LIVE STUDIO (VERSI VERTIKAL 1080 x 1920)
+--------------------------------------------------------------------------------
+1. Buka aplikasi TIKTOK LIVE STUDIO di PC/Laptop Anda.
+2. Di bagian kanan atas atau pengaturan layar, pastikan format kanvas adalah:
+   - Orientasi : Vertikal / Potret (9:16)
+   - Resolusi  : 1080 x 1920
+3. Pada panel "Sumber" (Sources), klik tombol "+ Tambahkan Sumber" (Add Source).
+4. Pilih opsi "Tautan" (Link) atau "Browser".
+5. Di kolom URL / Tautan, masukkan link berikut:
+   https://grndnstnmlk.github.io/overlay/
+6. Atur ukuran resolusi sumber:
+   - Lebar (Width)  : 1080
+   - Tinggi (Height): 1920
+7. Centang opsi transparansi (jika ada), lalu klik "Terapkan" / "Simpan".
+
+8. ATUR URUTAN LAYER (PENTING AGAR TIDAK KETUTUP):
+   Urutkan layer dari PALING ATAS ke PALING BAWAH:
+   ----------------------------------------------------------------------------
+   [Layer 1 - PALING ATAS] : Browser (Overlay Vertikal)
+                             -> Overlay ini transparan di bagian tengahnya.
+   [Layer 2 - TENGAH]      : Tangkapan Layar Game / Layar HP MLBB (16:9)
+                             -> Posisikan game tepat di dalam kotak panduan
+                                bingkai tengah (di antara Y: 125px s/d 733px).
+   [Layer 3 - BAWAH/OPSI]  : Kamera / Webcam Facecam (jika ada).
+   [Layer 4 - PALING DASAR]: Background / Wallpaper (opsional).
+   ----------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+3. CARA PASANG DI OBS STUDIO / STREAMLABS (VERSI HORIZONTAL 1920 x 1080)
+--------------------------------------------------------------------------------
+1. Buka aplikasi OBS STUDIO atau Streamlabs Desktop.
+2. Pada panel "Sources" (Sumber), klik ikon "+" -> Pilih "Browser".
+3. Beri nama sumber (misalnya: "MLBB Promo Overlay"), lalu klik OK.
+4. Pada kolom URL, masukkan:
+   https://grndnstnmlk.github.io/overlay/overlay.html
+   (Atau bisa centang "Local file" lalu Browse ke file overlay.html di laptop Anda).
+5. Atur ukuran resolusi:
+   - Width  : 1920
+   - Height : 1080
+6. Centang:
+   [v] Shutdown source when not visible
+   [v] Refresh browser when scene becomes active
+7. Klik OK. Overlay banner bawah akan langsung muncul di layar live stream!
+
+--------------------------------------------------------------------------------
+4. TOMBOL PINTAS (HOTKEYS) SAAT STREAMING
+--------------------------------------------------------------------------------
+Ketika browser source aktif atau Anda mengklik overlay:
+- Tekan Tombol 'Q' : Membuka / Menutup foto resmi QRIS Fullscreen (Malikalone)
+                     agar penonton bisa scan besar di layar.
+- Tekan Tombol 'S' : Membuka panel menu konfigurasi untuk mengubah teks toko
+  atau Tombol 'C'    atau harga joki/mabar secara langsung di layar.
+- Tekan 'Escape'   : Menutup pop-up QRIS atau menu konfigurasi.
+
+--------------------------------------------------------------------------------
+5. FITUR-FITUR YANG ADA DI DALAM OVERLAY INI
+--------------------------------------------------------------------------------
+1. Header Atas Beranimasi Bergerak (Infinite Running Marquee Ticker):
+   - Menampilkan status LIVE, promo Jagestore, ajakan TAP TAP LAYAR & SHARE,
+     serta ringkasan joki & mabar.
+2. Video Avatar Yu Zhong (Blood Serpent):
+   - Video bergerak looping dengan efek pulsing aura merah naga & partikel api.
+3. 3 Kategori Promosi Berputar Otomatis Setiap 5 Detik:
+   - Slide 1: TOP UP DIAMOND (jagestore.shop - Instant 24 Jam Legal)
+   - Slide 2: JASA JOKI RANK (Epic s/d Immortal - Order via DM TikTok/WhatsApp)
+   - Slide 3: OPEN MABAR VIP (10rb / Win - Mic On Voice Discord/In-game)
+4. QRIS Scanner Box:
+   - Ukuran QRIS telah diperbesar (112px x 112px) dengan kontras tajam sehingga
+     sangat mudah dideteksi oleh kamera aplikasi bank/e-wallet penonton.
+5. 3-Grid Summary Card:
+   - 3 kotak ringkas di bagian bawah yang selalu tampil permanen.
+
+================================================================================
+              Selamat Streaming & Semoga Makin Banyak Orderan!
+================================================================================
