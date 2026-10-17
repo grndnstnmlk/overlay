@@ -33,9 +33,12 @@
       user-select: none;
     }
 
-    body {
-      width: 1920px;
-      height: 1080px;
+    /* Resolusi Adaptif 100% Viewport agar tidak terpotong */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
       background: transparent;
       overflow: hidden;
       position: relative;
@@ -48,31 +51,58 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 1920px;
+      width: 100%;
       height: 320px;
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Container Utama Overlay Bawah Tengah */
+    /* ========================================================
+       CONTAINER UTAMA OVERLAY (SMART AUTO-FIT)
+       Aman di 1080p, 720p, maupun mode Banner Tipis di OBS
+       ======================================================== */
     .overlay-wrapper {
       position: absolute;
-      bottom: 22px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      width: max-content;
+      max-width: 98vw;
+    }
+
+    /* JIKA BROWSER SOURCE DI OBS DIPASANG SEBAGAI BANNER TIPIS (Tinggi <= 280px) */
+    @media (max-height: 280px) {
+      .overlay-wrapper {
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        gap: 5px;
+      }
+      #emberCanvas {
+        display: none;
+      }
+    }
+
+    /* JIKA DI LAYAR LAPTOP / 720P (Tinggi 281px - 820px) */
+    @media (max-height: 820px) and (min-height: 281px) {
+      .overlay-wrapper {
+        bottom: 12px;
+        transform: translateX(-50%) scale(0.92);
+        transform-origin: bottom center;
+      }
     }
 
     /* ========================================================
        1. TOP RUNNING MARQUEE TICKER (ANIMASI BERGERAK MENGALIR)
        ======================================================== */
     .top-ticker {
-      width: 1000px;
-      height: 36px;
+      width: 960px;
+      height: 32px;
       background: rgba(14, 5, 9, 0.95);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border-outer);
@@ -107,7 +137,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       letter-spacing: 0.5px;
       color: #cbd5e1;
@@ -143,28 +173,28 @@
     }
 
     /* ========================================================
-       2. BANNER UTAMA (LEBAR 1000px, TEKS LEGA & QRIS BESAR)
+       2. BANNER UTAMA (LEBAR 960px, TINGGI 90px - FIT SEMPURNA)
        ======================================================== */
     .promo-frame {
       position: relative;
-      width: 1000px;
-      height: 98px;
+      width: 960px;
+      height: 90px;
       padding: 2px;
-      border-radius: 16px;
+      border-radius: 14px;
       background: linear-gradient(135deg, rgba(255, 18, 61, 0.85) 0%, rgba(138, 7, 29, 0.5) 45%, rgba(255, 183, 3, 0.6) 100%);
       box-shadow: 
-        0 14px 40px rgba(0, 0, 0, 0.88),
-        0 0 28px var(--crimson-glow),
+        0 12px 35px rgba(0, 0, 0, 0.85),
+        0 0 25px var(--crimson-glow),
         inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
     /* Ambient Video Reflection di Belakang Frame */
     .ambient-glow-video {
       position: absolute;
-      inset: -8px;
-      border-radius: 22px;
+      inset: -6px;
+      border-radius: 18px;
       overflow: hidden;
-      filter: blur(24px) opacity(0.38);
+      filter: blur(20px) opacity(0.35);
       z-index: -1;
       pointer-events: none;
     }
@@ -181,11 +211,11 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(180deg, rgba(18, 7, 12, 0.97) 0%, rgba(10, 4, 7, 0.99) 100%);
-      border-radius: 14px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      padding: 0 16px;
-      gap: 16px;
+      padding: 0 14px;
+      gap: 14px;
       overflow: hidden;
       backdrop-filter: blur(12px);
     }
@@ -203,8 +233,8 @@
     /* Dragon Video Avatar Badge (Kiri) */
     .avatar-wrapper {
       position: relative;
-      width: 68px;
-      height: 68px;
+      width: 62px;
+      height: 62px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -217,7 +247,7 @@
       border-radius: 50%;
       background: conic-gradient(from 0deg, var(--crimson-core), var(--amber-gold), var(--crimson-dark), var(--crimson-core));
       animation: spinRing 6s linear infinite;
-      box-shadow: 0 0 15px var(--crimson-glow);
+      box-shadow: 0 0 14px var(--crimson-glow);
     }
 
     @keyframes spinRing {
@@ -227,8 +257,8 @@
 
     .avatar-inner {
       position: relative;
-      width: 62px;
-      height: 62px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       overflow: hidden;
       border: 2px solid #ffffff;
@@ -249,14 +279,14 @@
       flex-direction: column;
       align-items: center;
       gap: 2px;
-      width: 98px;
+      width: 95px;
       flex-shrink: 0;
     }
 
     .promo-tag {
       width: 100%;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #fff;
       text-transform: uppercase;
@@ -293,7 +323,7 @@
     }
 
     .tag-subtext {
-      font-size: 9.5px;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--amber-gold);
@@ -305,7 +335,7 @@
     /* Pemisah Garis Vertikal */
     .vertical-divider {
       width: 1px;
-      height: 56px;
+      height: 52px;
       background: linear-gradient(180deg, transparent, rgba(255, 18, 61, 0.6), transparent);
       flex-shrink: 0;
     }
@@ -314,7 +344,7 @@
     .promo-content {
       flex: 1;
       position: relative;
-      height: 68px;
+      height: 64px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -325,13 +355,13 @@
       position: absolute;
       width: 100%;
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(14px);
       filter: blur(4px);
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .slide.active {
@@ -343,7 +373,7 @@
 
     .title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 19px;
+      font-size: 17.5px;
       font-weight: 800;
       color: #ffffff;
       display: flex;
@@ -355,14 +385,14 @@
     }
 
     .title .icon-chip {
-      font-size: 15px;
+      font-size: 14px;
       display: inline-flex;
       align-items: center;
     }
 
     .title .badge-pill {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       background: rgba(255, 18, 61, 0.28);
       color: #ff7590;
@@ -379,7 +409,7 @@
     }
 
     .subtitle {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text-muted);
       line-height: 1.35;
@@ -403,7 +433,7 @@
     .highlight-price {
       color: var(--amber-gold);
       font-weight: 800;
-      font-size: 14.5px;
+      font-size: 13.5px;
       text-shadow: 0 0 8px var(--gold-glow);
     }
 
@@ -412,18 +442,18 @@
     }
 
     /* ========================================================
-       QRIS SCANNER BOX BESAR & JELAS (UKURAN DIPERBESAR SUPAYA MUDAH DI-SCAN HP)
+       QRIS SCANNER BOX (74px x 74px - FIT PAS, TIDAK TERPOTONG)
        ======================================================== */
     .qris-card {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background: #17070e;
       border: 2px solid var(--border-red);
-      border-radius: 12px;
-      padding: 6px 12px;
+      border-radius: 11px;
+      padding: 4px 10px;
       flex-shrink: 0;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 18, 61, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 18, 61, 0.2);
       cursor: pointer;
       transition: all 0.25s ease;
       position: relative;
@@ -431,18 +461,18 @@
 
     .qris-card:hover {
       border-color: var(--amber-gold);
-      box-shadow: 0 0 18px var(--gold-glow);
+      box-shadow: 0 0 16px var(--gold-glow);
       transform: translateY(-2px);
     }
 
-    /* Thumbnail QRIS Diperbesar ke 80px x 80px */
+    /* Thumbnail QRIS 74px x 74px pas di dalam banner 90px */
     .qris-thumb-box {
       position: relative;
-      width: 80px;
-      height: 80px;
+      width: 74px;
+      height: 74px;
       background: #ffffff;
-      border-radius: 8px;
-      padding: 4px;
+      border-radius: 6px;
+      padding: 3px;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
       flex-shrink: 0;
@@ -461,7 +491,7 @@
     .qris-details {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .qris-top-row {
@@ -471,19 +501,19 @@
     }
 
     .qris-label {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
       color: #ff3355;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       background: rgba(255, 18, 61, 0.2);
-      padding: 1px 6px;
+      padding: 1px 5px;
       border-radius: 3px;
     }
 
     .qris-merchant {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: 0.5px;
@@ -491,7 +521,7 @@
     }
 
     .qris-support {
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 800;
       color: var(--amber-gold);
       white-space: nowrap;
@@ -545,7 +575,7 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      max-width: 460px;
+      max-width: 440px;
       position: relative;
       transform: scale(0.95);
       transition: transform 0.3s ease;
@@ -714,7 +744,7 @@
   <!-- Partikel Embers Naga Merah -->
   <canvas id="emberCanvas"></canvas>
 
-  <!-- Container Utama -->
+  <!-- Container Utama (Auto-Fit) -->
   <div class="overlay-wrapper">
     
     <!-- Top Running Marquee Ticker Bar (Animasi Bergerak Mengalir) -->
@@ -735,7 +765,7 @@
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WHATSAPP</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
@@ -766,7 +796,7 @@
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WHATSAPP</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
@@ -865,10 +895,9 @@
 
         </div>
 
-        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) - Ukuran Lebih Besar 80px x 80px -->
+        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) - 74px x 74px Pas & Tidak Terpotong -->
         <div class="qris-card" id="qrisCard" title="Klik untuk lihat QRIS ukuran penuh (Malikalone)">
           <div class="qris-thumb-box">
-            <!-- Menggunakan crop QRIS clean 80px x 80px agar mudah di-scan kamera HP -->
             <img class="qris-thumb-img" src="qris_clean.png" alt="QRIS Malikalone">
           </div>
           <div class="qris-details">
@@ -943,7 +972,7 @@
     const badgeSub = document.getElementById('badgeSub');
     const progressLine = document.getElementById('progressLine');
     
-    // Tepat 3 Kategori Promosi (Memperbaiki bug index undefined)
+    // Tepat 3 Kategori Promosi
     const badges = [
       { tag: 'TOP UP', sub: 'JAGÈSTORE' },
       { tag: 'JOKI RANK', sub: 'DM TIKTOK' },
@@ -1061,9 +1090,11 @@
     let particles = [];
 
     function resizeCanvas() {
-      canvas.width = 1920;
-      canvas.height = 320;
+      canvas.width = window.innerWidth || 1920;
+      canvas.height = window.innerHeight || 1080;
     }
+
+    window.addEventListener('resize', resizeCanvas);
 
     class EmberParticle {
       constructor() {
@@ -1071,8 +1102,8 @@
       }
 
       reset() {
-        this.x = 960 + (Math.random() - 0.5) * 1000;
-        this.y = 320 + Math.random() * 20;
+        this.x = (window.innerWidth || 1920) / 2 + (Math.random() - 0.5) * 980;
+        this.y = (window.innerHeight || 1080) - 20 + Math.random() * 20;
         this.size = Math.random() * 2.8 + 1;
         this.speedY = Math.random() * 1.2 + 0.6;
         this.speedX = (Math.random() - 0.5) * 0.8;
@@ -1085,7 +1116,7 @@
         this.x += this.speedX;
         this.alpha -= 0.0035;
 
-        if (this.alpha <= 0 || this.y < 0) {
+        if (this.alpha <= 0 || this.y < (window.innerHeight || 1080) - 300) {
           this.reset();
         }
       }
@@ -1111,9 +1142,9 @@
     function initParticles() {
       resizeCanvas();
       particles = [];
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 45; i++) {
         const p = new EmberParticle();
-        p.y = Math.random() * 320;
+        p.y = (window.innerHeight || 1080) - Math.random() * 280;
         particles.push(p);
       }
     }
