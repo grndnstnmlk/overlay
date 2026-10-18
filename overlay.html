@@ -905,13 +905,13 @@
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK</span>
+          <span class="ticker-highlight">NEGO VIA DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>👑</span>
           <span>MABAR VIP:</span>
-          <span class="ticker-highlight" id="tickerMabar">10RB / WIN (MIC ON)</span>
+          <span class="ticker-highlight" id="tickerMabar">10RB / WIN (LINK DI BIO)</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
@@ -936,13 +936,13 @@
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK</span>
+          <span class="ticker-highlight">NEGO VIA DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>👑</span>
           <span>MABAR VIP:</span>
-          <span class="ticker-highlight">10RB / WIN (MIC ON)</span>
+          <span class="ticker-highlight">10RB / WIN (LINK DI BIO)</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
@@ -980,10 +980,10 @@
 
         <div class="vertical-divider"></div>
 
-        <!-- Carousel Slides: Tepat 3 Kategori Promosi (100% TikTok Safe) -->
+        <!-- Carousel Slides: Tepat 3 Kategori Promosi (100% TikTok Safe & Bebas Nabrak) -->
         <div class="promo-content">
           
-          <!-- Slide 1: TOP UP DIAMOND -->
+          <!-- Slide 1: TOP UP DIAMOND (Jagèstore) -->
           <div class="slide active" id="slide-0">
             <div class="title">
               <span class="icon-chip">💎</span>
@@ -998,7 +998,7 @@
             </div>
           </div>
 
-          <!-- Slide 2: JASA JOKI RANK -->
+          <!-- Slide 2: JASA JOKI RANK (Nego via DM) -->
           <div class="slide" id="slide-1">
             <div class="title">
               <span class="icon-chip">⚔️</span>
@@ -1008,36 +1008,34 @@
             <div class="subtitle">
               <span class="highlight-price">Epic → Legend → Mythic → Honor → Immortal</span>
               <span class="highlight-dot">•</span>
-              <span>Pekerjaan Cepat</span>
-              <span class="highlight-dot">•</span>
-              <span class="highlight-link">📩 ORDER VIA DM TIKTOK</span>
+              <span>Konsultasi & Nego Bebas di DM</span>
             </div>
           </div>
 
-          <!-- Slide 3: MABAR VIP (10rb per win) -->
+          <!-- Slide 3: MABAR VIP (10rb per win via Sociabuzz di Bio) -->
           <div class="slide" id="slide-2">
             <div class="title">
               <span class="icon-chip">👑</span>
-              <span>OPEN MABAR VIP STREAMER • MIC ON</span>
+              <span>OPEN MABAR VIP STREAMER</span>
               <span class="badge-pill gold" id="dispMabarPill">10RB / WIN</span>
             </div>
             <div class="subtitle">
               <span class="highlight-price" id="dispMabarPrice">Rp 10.000 / Win</span>
               <span class="highlight-dot">•</span>
-              <span>Push Rank Winstreak</span>
+              <span>Push Rank Winstreak Bareng Streamer</span>
               <span class="highlight-dot">•</span>
-              <span class="highlight-link">CHAT DM TIKTOK SEKARANG</span>
+              <span class="highlight-link">👉 ORDER: LINK BIO (SOCIABUZZ)</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Safe Order Widget Pengganti QRIS (100% Aman dari Strike Off-Platform) -->
-        <div class="tiktok-safe-card">
-          <div class="bio-icon-circle">🔗</div>
+        <!-- Safe Order Widget yang Sinkron Dinamis (Bukan Jagèstore Terus & Bebas Tabrakan) -->
+        <div class="tiktok-safe-card" id="tiktokSafeCard">
+          <div class="bio-icon-circle" id="bioIcon">💎</div>
           <div class="bio-details">
-            <span class="bio-brand">JAGÈSTORE</span>
-            <span class="bio-action">👉 CEK LINK DI BIO</span>
+            <span class="bio-brand" id="bioBrand">JAGÈSTORE</span>
+            <span class="bio-action" id="bioAction">👉 CEK LINK DI BIO</span>
           </div>
         </div>
 
@@ -1122,12 +1120,33 @@
     const badge = document.getElementById('promoBadge');
     const badgeSub = document.getElementById('badgeSub');
     const progressLine = document.getElementById('progressLine');
+    const bioIcon = document.getElementById('bioIcon');
+    const bioBrand = document.getElementById('bioBrand');
+    const bioAction = document.getElementById('bioAction');
     
-    // Tepat 3 Kategori Promosi
-    const badges = [
-      { tag: 'TOP UP', sub: 'JAGÈSTORE' },
-      { tag: 'JOKI RANK', sub: 'DM TIKTOK' },
-      { tag: 'MABAR VIP', sub: '10K/WIN' }
+    // Tepat 3 Kategori Promosi (Sinkron Kiri & Kanan)
+    const slideMeta = [
+      { 
+        tag: 'TOP UP', 
+        sub: 'JAGÈSTORE', 
+        icon: '💎', 
+        brand: 'JAGÈSTORE', 
+        action: '👉 CEK LINK DI BIO' 
+      },
+      { 
+        tag: 'JOKI RANK', 
+        sub: 'DM TIKTOK', 
+        icon: '📩', 
+        brand: 'NEGO DI DM', 
+        action: '💬 CHAT DM TIKTOK' 
+      },
+      { 
+        tag: 'MABAR VIP', 
+        sub: 'SOCIABUZZ', 
+        icon: '👑', 
+        brand: 'SOCIABUZZ', 
+        action: '👉 KLIK LINK DI BIO' 
+      }
     ];
 
     let currentIndex = 0;
@@ -1136,7 +1155,10 @@
 
     function applyConfig() {
       document.getElementById('dispMabarPrice').textContent = config.mabarPrice;
-      document.getElementById('tickerMabar').textContent = config.mabarPrice.replace('Rp ', '').replace('.000', 'K') + ' / WIN (MIC ON)';
+      const cleanPrice = config.mabarPrice.replace('Rp ', '').replace('.000', 'K');
+      document.getElementById('tickerMabar').textContent = cleanPrice + ' / WIN (LINK DI BIO)';
+      const pill = document.getElementById('dispMabarPill');
+      if (pill) pill.textContent = cleanPrice + ' / WIN';
     }
 
     function goToSlide(index) {
@@ -1144,9 +1166,12 @@
       currentIndex = index % slides.length;
       slides[currentIndex].classList.add('active');
       
-      if (badges[currentIndex]) {
-        badge.textContent = badges[currentIndex].tag;
-        badgeSub.textContent = badges[currentIndex].sub;
+      if (slideMeta[currentIndex]) {
+        badge.textContent = slideMeta[currentIndex].tag;
+        badgeSub.textContent = slideMeta[currentIndex].sub;
+        if (bioIcon) bioIcon.textContent = slideMeta[currentIndex].icon;
+        if (bioBrand) bioBrand.textContent = slideMeta[currentIndex].brand;
+        if (bioAction) bioAction.textContent = slideMeta[currentIndex].action;
       }
 
       resetProgressBar();
