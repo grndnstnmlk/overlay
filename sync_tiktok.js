@@ -1,6 +1,6 @@
 /**
  * TikTok Live Stream Sync Bridge
- * JAGÈSTORE MLBB Overlay
+ * MLBB Overlay Real-Time Sync
  * 
  * Menghubungkan TikTok LIVE langsung ke overlay secara real-time:
  * - Menyinkronkan jumlah Like asli saat penonton tap-tap layar
@@ -12,8 +12,17 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { WebSocketServer } = require('ws');
-const { WebcastPushConnection } = require('tiktok-live-connector');
 const readline = require('readline');
+
+// Kompatibilitas Versi tiktok-live-connector (v1 & v2.x)
+const tiktokConnectorModule = require('tiktok-live-connector');
+const TikTokLiveConnection = tiktokConnectorModule.TikTokLiveConnection || tiktokConnectorModule.WebcastPushConnection || tiktokConnectorModule.default || tiktokConnectorModule;
+const WebcastEvent = tiktokConnectorModule.WebcastEvent || {
+  LIKE: 'like',
+  ROOM_USER: 'roomUser',
+  CHAT: 'chat',
+  STREAM_END: 'streamEnd'
+};
 
 const PORT = 8080;
 
@@ -78,67 +87,105 @@ function broadcast(data) {
 }
 
 // 3. Sambungkan ke TikTok Live Stream
+let activeConnection = null;
+let reconnectTimer = null;
+
 function startTikTokConnector(username) {
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+  }
+
   const cleanUsername = username.replace(/^@/, '').trim();
-  console.log(`\n[TikTok] 🔍 Mencari siaran langsung untuk @${cleanUsername}...`);
+  console.log(`\n[TikTok] 🔍 Memeriksa siaran langsung untuk @${cleanUsername}...`);
 
-  const tiktokLive = new WebcastPushConnection(cleanUsername, {
-    processInitialData: true,
-    enableExtendedGiftInfo: true,
-    requestPollingIntervalMs: 1000
-  });
-
-  tiktokLive.connect()
-    .then(state => {
-      console.log(`[TikTok] 🔥 TERHUBUNG KE LIVE STREAM @${cleanUsername}! (Room ID: ${state.roomId})`);
-      console.log(`[TikTok] ✨ Siap menerima tap-tap like dari penonton secara real-time.\n`);
-    })
-    .catch(err => {
-      console.error(`[TikTok] ❌ Gagal terhubung ke @${cleanUsername}:`, err.message || err);
-      console.log(`[TikTok] 👉 Pastikan akun @${cleanUsername} SEDANG LIVE saat script ini dijalankan.`);
-      console.log(`[TikTok] 🔄 Mencoba menyambung kembali dalam 10 detik...`);
-      setTimeout(() => startTikTokConnector(cleanUsername), 10000);
-    });
-
-  // Event: Penonton memberi like / tap-tap layar
-  tiktokLive.on('like', (data) => {
-    console.log(`[Like] ❤️ +${data.likeCount} like dari ${data.uniqueId} | Total: ${data.totalLikeCount}`);
-    broadcast({
-      type: 'like',
-      likeCount: data.likeCount,
-      totalLikeCount: data.totalLikeCount,
-      user: data.uniqueId
-    });
-  });
-
-  // Event: Update statistik penonton & like
-  tiktokLive.on('roomUser', (data) => {
-    if (data.viewerCount) {
-      broadcast({
-        type: 'stats',
-        viewerCount: data.viewerCount
-      });
+  try {
+    if (activeConnection) {
+      try { activeConnection.disconnect(); } catch (e) {}
+      activeConnection = null;
     }
-  });
 
-  // Event: Siaran langsung berakhir
-  tiktokLive.on('streamEnd', () => {
-    console.log(`[TikTok] 🛑 Siaran langsung telah berakhir.`);
-  });
+    const tiktokLive = new TikTokLiveConnection(cleanUsername, {
+      processInitialData: true,
+      enableExtendedGiftInfo: true
+    });
+    activeConnection = tiktokLive;
 
-  tiktokLive.on('disconnected', () => {
-    console.log(`[TikTok] ⚠️ Terputus dari TikTok Live. Mencoba menghubungkan kembali...`);
-  });
+    // Cek apakah akun sedang live terlebih dahulu agar tidak error saat streamer belum klik go live
+    tiktokLive.fetchIsLive()
+      .then(isLive => {
+        if (!isLive) {
+          console.log(`[TikTok] ℹ️  Akun @${cleanUsername} saat ini SEDANG TIDAK LIVE (Offline).`);
+          console.log(`[TikTok] ⏳ Bridge tetap siaga dan akan otomatis terhubung begitu Anda klik "Mulai Siaran Langsung" di TikTok Live Studio!`);
+          console.log(`[TikTok] 🔄 Memeriksa ulang dalam 10 detik...\n`);
+          reconnectTimer = setTimeout(() => startTikTokConnector(cleanUsername), 10000);
+          return;
+        }
 
-  tiktokLive.on('error', (err) => {
-    console.error(`[TikTok] Error:`, err.message || err);
-  });
+        console.log(`[TikTok] 🟢 Siaran LANGSUNG AKTIF terdeteksi! Menghubungkan ke room...`);
+        return tiktokLive.connect()
+          .then(state => {
+            console.log(`[TikTok] 🔥 TERHUBUNG KE LIVE STREAM @${cleanUsername}! (Room ID: ${state.roomId})`);
+            console.log(`[TikTok] ✨ Siap menerima tap-tap like dari penonton secara real-time.\n`);
+          });
+      })
+      .catch(err => {
+        console.error(`[TikTok] ⚠️  Gagal memeriksa/terhubung ke @${cleanUsername}:`, err.message || err);
+        console.log(`[TikTok] 🔄 Mencoba kembali dalam 10 detik...`);
+        reconnectTimer = setTimeout(() => startTikTokConnector(cleanUsername), 10000);
+      });
+
+    // Event: Penonton memberi like / tap-tap layar
+    tiktokLive.on(WebcastEvent.LIKE || 'like', (data) => {
+      const likeCount = data.likeCount || data.count || 1;
+      const totalLikeCount = data.totalLikeCount || data.total;
+      const user = (data.user && (data.user.uniqueId || data.user.nickname)) || data.uniqueId || 'penonton';
+
+      console.log(`[Like] ❤️ +${likeCount} like dari @${user}${totalLikeCount ? ' | Total Like: ' + totalLikeCount : ''}`);
+      broadcast({
+        type: 'like',
+        likeCount: likeCount,
+        totalLikeCount: totalLikeCount,
+        user: user
+      });
+    });
+
+    // Event: Update statistik penonton & like
+    tiktokLive.on(WebcastEvent.ROOM_USER || 'roomUser', (data) => {
+      if (data.viewerCount) {
+        broadcast({
+          type: 'stats',
+          viewerCount: data.viewerCount
+        });
+      }
+    });
+
+    // Event: Siaran langsung berakhir
+    tiktokLive.on(WebcastEvent.STREAM_END || 'streamEnd', () => {
+      console.log(`[TikTok] 🛑 Siaran langsung telah berakhir.`);
+      console.log(`[TikTok] ⏳ Bridge siaga menunggu siaran berikutnya...`);
+      reconnectTimer = setTimeout(() => startTikTokConnector(cleanUsername), 15000);
+    });
+
+    tiktokLive.on('disconnected', () => {
+      console.log(`[TikTok] ⚠️ Terputus dari TikTok Live. Mencoba menghubungkan kembali...`);
+      reconnectTimer = setTimeout(() => startTikTokConnector(cleanUsername), 10000);
+    });
+
+    tiktokLive.on('error', (err) => {
+      console.error(`[TikTok] ⚠️ Peringatan koneksi:`, err.message || err);
+    });
+
+  } catch (err) {
+    console.error(`[TikTok] ❌ Inisialisasi koneksi gagal:`, err.message || err);
+    reconnectTimer = setTimeout(() => startTikTokConnector(cleanUsername), 10000);
+  }
 }
 
 // 4. Jalankan Server
 server.listen(PORT, () => {
   console.log(`================================================================`);
-  console.log(`       ⚡ JAGÈSTORE TIKTOK LIVE REAL-TIME SYNC BRIDGE ⚡        `);
+  console.log(`         ⚡ TIKTOK LIVE REAL-TIME SYNC BRIDGE (AKTIF) ⚡         `);
   console.log(`================================================================`);
   console.log(`Local Web Server berjalan pada: http://localhost:${PORT}/`);
   console.log(`Link Overlay Vertikal : http://localhost:${PORT}/index.html`);
@@ -155,9 +202,9 @@ server.listen(PORT, () => {
       output: process.stdout
     });
 
-    rl.question('Masukkan Username TikTok Anda (contoh: @malikalone): ', (answer) => {
+    rl.question('Masukkan Username TikTok Anda (contoh: @greendmalik): ', (answer) => {
       rl.close();
-      const targetUser = answer.trim() || 'malikalone';
+      const targetUser = answer.trim() || 'greendmalik';
       startTikTokConnector(targetUser);
     });
   }
