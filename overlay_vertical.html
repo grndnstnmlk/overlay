@@ -1252,21 +1252,27 @@
     }
 
     function goToSlide(index) {
-      slides[currentIndex].classList.remove('active');
-      summaryCards[currentIndex].classList.remove('active-glow');
-      
-      currentIndex = index % slides.length;
-      
-      slides[currentIndex].classList.add('active');
-      summaryCards[currentIndex].classList.add('active-glow');
+      try {
+        if (!slides || slides.length === 0) return;
 
-      if (vertWidgetMeta[currentIndex]) {
-        if (vertBioIcon) vertBioIcon.textContent = vertWidgetMeta[currentIndex].icon;
-        if (vertBioTitle) vertBioTitle.textContent = vertWidgetMeta[currentIndex].title;
-        if (vertBioSub) vertBioSub.textContent = vertWidgetMeta[currentIndex].sub;
+        slides[currentIndex].classList.remove('active');
+        if (summaryCards[currentIndex]) summaryCards[currentIndex].classList.remove('active-glow');
+        
+        currentIndex = index % slides.length;
+        
+        slides[currentIndex].classList.add('active');
+        if (summaryCards[currentIndex]) summaryCards[currentIndex].classList.add('active-glow');
+
+        if (vertWidgetMeta && vertWidgetMeta[currentIndex]) {
+          if (vertBioIcon) vertBioIcon.textContent = vertWidgetMeta[currentIndex].icon;
+          if (vertBioTitle) vertBioTitle.textContent = vertWidgetMeta[currentIndex].title;
+          if (vertBioSub) vertBioSub.textContent = vertWidgetMeta[currentIndex].sub;
+        }
+      } catch (e) {
+        console.error('goToSlide error:', e);
+      } finally {
+        resetProgressBar();
       }
-
-      resetProgressBar();
     }
 
     function nextSlide() {
@@ -1278,14 +1284,19 @@
       if (animFrame) cancelAnimationFrame(animFrame);
 
       function updateProgress(now) {
-        const elapsed = now - progressStartTime;
-        const progress = Math.min((elapsed / config.slideDuration) * 100, 100);
-        progressBar.style.width = progress + '%';
+        try {
+          const elapsed = now - progressStartTime;
+          const progress = Math.min((elapsed / config.slideDuration) * 100, 100);
+          if (progressBar) progressBar.style.width = progress + '%';
 
-        if (elapsed < config.slideDuration) {
-          animFrame = requestAnimationFrame(updateProgress);
-        } else {
-          nextSlide();
+          if (elapsed < config.slideDuration) {
+            animFrame = requestAnimationFrame(updateProgress);
+          } else {
+            nextSlide();
+          }
+        } catch (e) {
+          console.error('updateProgress error:', e);
+          setTimeout(nextSlide, 2000);
         }
       }
 

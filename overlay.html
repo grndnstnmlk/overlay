@@ -1127,6 +1127,10 @@
     };
 
     const slides = document.querySelectorAll('.slide');
+    const badge = document.getElementById('promoBadge');
+    const badgeSub = document.getElementById('badgeSub');
+    const progressLine = document.getElementById('progressLine');
+
     // 3 Kategori Promosi
     const slideMeta = [
       { 
@@ -1148,24 +1152,36 @@
     let animFrame = null;
 
     function applyConfig() {
-      document.getElementById('dispMabarPrice').textContent = config.mabarPrice;
-      const cleanPrice = config.mabarPrice.replace('Rp ', '').replace('.000', 'K');
-      document.getElementById('tickerMabar').textContent = cleanPrice + ' / WIN (LINK DI BIO)';
-      const pill = document.getElementById('dispMabarPill');
-      if (pill) pill.textContent = cleanPrice + ' / WIN';
+      try {
+        const dispPrice = document.getElementById('dispMabarPrice');
+        if (dispPrice) dispPrice.textContent = config.mabarPrice;
+        const cleanPrice = config.mabarPrice.replace('Rp ', '').replace('.000', 'K');
+        const tickerEl = document.getElementById('tickerMabar');
+        if (tickerEl) tickerEl.textContent = cleanPrice + ' / WIN (LINK DI BIO)';
+        const pill = document.getElementById('dispMabarPill');
+        if (pill) pill.textContent = cleanPrice + ' / WIN';
+      } catch (e) {
+        console.error('applyConfig error:', e);
+      }
     }
 
     function goToSlide(index) {
-      slides[currentIndex].classList.remove('active');
-      currentIndex = index % slides.length;
-      slides[currentIndex].classList.add('active');
-      
-      if (slideMeta[currentIndex]) {
-        badge.textContent = slideMeta[currentIndex].tag;
-        badgeSub.textContent = slideMeta[currentIndex].sub;
-      }
+      try {
+        if (!slides || slides.length === 0) return;
 
-      resetProgressBar();
+        slides[currentIndex].classList.remove('active');
+        currentIndex = index % slides.length;
+        slides[currentIndex].classList.add('active');
+        
+        if (slideMeta && slideMeta[currentIndex]) {
+          if (badge) badge.textContent = slideMeta[currentIndex].tag;
+          if (badgeSub) badgeSub.textContent = slideMeta[currentIndex].sub;
+        }
+      } catch (e) {
+        console.error('goToSlide error:', e);
+      } finally {
+        resetProgressBar();
+      }
     }
 
     function nextSlide() {
@@ -1177,14 +1193,21 @@
       if (animFrame) cancelAnimationFrame(animFrame);
 
       function updateProgress(now) {
-        const elapsed = now - progressStartTime;
-        const progress = Math.min((elapsed / config.slideDuration) * 100, 100);
-        progressLine.style.width = progress + '%';
+        try {
+          const elapsed = now - progressStartTime;
+          const progress = Math.min((elapsed / config.slideDuration) * 100, 100);
+          if (progressLine) {
+            progressLine.style.width = progress + '%';
+          }
 
-        if (elapsed < config.slideDuration) {
-          animFrame = requestAnimationFrame(updateProgress);
-        } else {
-          nextSlide();
+          if (elapsed < config.slideDuration) {
+            animFrame = requestAnimationFrame(updateProgress);
+          } else {
+            nextSlide();
+          }
+        } catch (e) {
+          console.error('updateProgress error:', e);
+          setTimeout(nextSlide, 2000);
         }
       }
 
