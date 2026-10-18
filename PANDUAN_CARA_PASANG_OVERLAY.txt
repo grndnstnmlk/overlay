@@ -115,6 +115,39 @@ TOMBOL PINTAS KEYBOARD (HOTKEYS):
               * Harga Mabar VIP
               * Durasi rotasi slide promo
 
+--------------------------------------------------------------------------------
+6. KENAPA HOTKEY 'S' & 'T' TIDAK RESPON DI TIKTOK LIVE & CARA PENGATURANNYA
+--------------------------------------------------------------------------------
+Saat Anda membuka TikTok Live Studio atau sedang bermain MLBB, keyboard PC/Laptop
+Anda berada dalam kendali sistem Windows atau aplikasi game Anda, BUKAN di dalam
+halaman browser overlay. Oleh karena itu, menekan tombol 'S' atau 'T' di keyboard
+tidak akan diterima oleh browser TikTok Live Studio.
+
+SOLUSI MUDAH & RESMI MENGUBAH PENGATURAN DI TIKTOK LIVE:
+Gunakan WEB GENERATOR LINK (Otomatis & Tanpa Tekan Keyboard):
+👉 Buka link generator ini di Google Chrome / Browser HP Anda:
+   https://grndnstnmlk.github.io/overlay/generator.html
+
+Di halaman tersebut Anda tinggal memasukkan:
+- Harga Mabar VIP (misal: 10k, 15k, 20k)
+- Target Like Live (misal: 50k, 100k)
+- Tombol On/Off Widget Tap-Tap Layar
+Lalu klik tombol "SALIN LINK UNTUK TIKTOK LIVE STUDIO" dan paste ke aplikasi!
+
+CONTOH LINK DENGAN PENGATURAN URL LANGSUNG:
+1. Mabar VIP Rp 15.000 & Target Like 100.000:
+   https://grndnstnmlk.github.io/overlay/?mabar=15k&target=100k
+2. Sembunyikan Widget Tap-Tap Layar (Hanya banner promo bawah):
+   https://grndnstnmlk.github.io/overlay/?taptap=0
+3. Ubah Versi Horizontal (Landscape):
+   https://grndnstnmlk.github.io/overlay/overlay.html?mabar=15k&target=100k
+
+KHUSUS OBS STUDIO (JIKA PAKAI OBS):
+- Klik Kanan sumber "Browser" overlay Anda di daftar Sumber (Sources).
+- Pilih "Interact" (Berinteraksi).
+- Jendela interaksi akan muncul, dan tombol keyboard 'S', 'T', serta klik mouse
+  akan berfungsi 100%!
+
 ================================================================================
               Selamat Streaming & Semoga Akun Tetap Aman & Ramai!
 ================================================================================

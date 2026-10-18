@@ -1358,7 +1358,71 @@
       toggleConfigModal();
     });
 
-    // Inisialisasi Tampilan Like Goal
+    // ========================================================
+    // PENGATURAN VIA URL PARAMETER (KHUSUS TIKTOK LIVE STUDIO)
+    // Mengatasi keterbatasan keyboard hotkey pada browser source
+    // ========================================================
+    function parseUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      
+      // 1. Harga Mabar VIP (?mabar=15k atau ?mabar=15000)
+      if (params.has('mabar')) {
+        let p = params.get('mabar').trim();
+        if (/^\d+k$/i.test(p)) {
+          p = 'Rp ' + p.toUpperCase().replace('K', '.000') + ' / Win';
+        } else if (/^\d+$/i.test(p)) {
+          p = 'Rp ' + parseInt(p, 10).toLocaleString('id-ID') + ' / Win';
+        } else if (!p.toLowerCase().includes('win')) {
+          p = p + ' / Win';
+        }
+        config.mabarPrice = p;
+        localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
+      }
+
+      // 2. Target Like Live (?target=100k atau ?target=50000)
+      if (params.has('target')) {
+        let t = params.get('target').trim().toLowerCase();
+        if (t.endsWith('k')) {
+          likeTarget = Math.round(parseFloat(t) * 1000);
+        } else {
+          likeTarget = parseInt(t, 10) || 50000;
+        }
+        localStorage.setItem('mlbb_like_target', likeTarget.toString());
+      }
+
+      // 3. Like Awal (?likes=30k atau ?likes=30000)
+      if (params.has('likes')) {
+        let l = params.get('likes').trim().toLowerCase();
+        if (l.endsWith('k')) {
+          likeCount = Math.round(parseFloat(l) * 1000);
+        } else {
+          likeCount = parseInt(l, 10) || 25400;
+        }
+        localStorage.setItem('mlbb_like_count', likeCount.toString());
+      }
+
+      // 4. Durasi Slide (?durasi=6 detik)
+      if (params.has('durasi')) {
+        const d = parseInt(params.get('durasi'), 10);
+        if (!isNaN(d) && d >= 2) {
+          config.slideDuration = d * 1000;
+          localStorage.setItem('mlbb_duration', config.slideDuration.toString());
+        }
+      }
+
+      // 5. Tampilkan / Sembunyikan Tap-Tap (?taptap=0 atau ?taptap=hide atau ?taptap=1)
+      if (params.has('taptap')) {
+        const val = params.get('taptap').trim().toLowerCase();
+        const hide = (val === '0' || val === 'false' || val === 'off' || val === 'hide');
+        if (tapShareDeckRow) {
+          if (hide) tapShareDeckRow.classList.add('hidden');
+          else tapShareDeckRow.classList.remove('hidden');
+        }
+      }
+    }
+
+    // Inisialisasi Tampilan & URL Config
+    parseUrlParams();
     updateLikeDisplay();
 
     // Canvas Partikel Embers Naga Merah (Yu Zhong)

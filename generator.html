@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Stream Overlay Link Generator • JAGÈSTORE</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0407;
+      --bg-card: #15070d;
+      --crimson-core: #ff123d;
+      --crimson-glow: rgba(255, 18, 61, 0.55);
+      --amber-gold: #ffb703;
+      --gold-glow: rgba(255, 183, 3, 0.45);
+      --border-red: rgba(255, 18, 61, 0.45);
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 18, 61, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 90% 90%, rgba(255, 183, 3, 0.15) 0%, transparent 50%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .header-box {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 18, 61, 0.15);
+      border: 1px solid var(--border-red);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: var(--amber-gold);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+      text-shadow: 0 0 15px var(--crimson-glow);
+    }
+
+    p.subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-red);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 18, 61, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-group label span.hint {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: none;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #0d0407;
+      border: 1.5px solid rgba(255, 18, 61, 0.35);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--amber-gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0d0407;
+      border: 1.5px solid rgba(255, 18, 61, 0.35);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .toggle-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #334155;
+      transition: .3s;
+      border-radius: 999px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--crimson-core);
+      box-shadow: 0 0 10px var(--crimson-glow);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    .result-box {
+      background: #090305;
+      border: 1.5px solid var(--amber-gold);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .result-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .result-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--amber-gold);
+      letter-spacing: 0.5px;
+    }
+
+    .result-url {
+      background: #14070d;
+      border: 1px dashed rgba(255, 183, 3, 0.4);
+      border-radius: 8px;
+      padding: 12px;
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 13px;
+      word-break: break-all;
+      user-select: all;
+    }
+
+    .btn-copy {
+      width: 100%;
+      background: linear-gradient(135deg, var(--crimson-core) 0%, #b80d2b 100%);
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(255, 18, 61, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .btn-copy:hover {
+      box-shadow: 0 0 25px var(--crimson-core);
+      transform: translateY(-2px);
+    }
+
+    .info-card {
+      background: rgba(30, 12, 20, 0.6);
+      border: 1px solid rgba(255, 18, 61, 0.25);
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .info-card strong {
+      color: #fff;
+    }
+
+    .info-card ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .info-card li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="header-box">
+      <div class="logo-badge">⚡ JAGÈSTORE STREAM UTILITY</div>
+      <h1>LINK GENERATOR OVERLAY MLBB</h1>
+      <p class="subtitle">
+        Atur harga mabar VIP, target like live, dan slide promo langsung ke dalam link URL. 
+        Paling cocok & ampuh untuk TikTok Live Studio tanpa repot tekan tombol keyboard!
+      </p>
+    </div>
+
+    <div class="card">
+      
+      <!-- Pilihan Orientasi -->
+      <div class="form-group">
+        <label>Format Orientasi Overlay</label>
+        <select class="form-control" id="optType">
+          <option value="vertical" selected>Vertikal / Potret (1080 x 1920) • Standar TikTok Live</option>
+          <option value="horizontal">Horizontal / Landscape (1920 x 1080) • OBS / PC Game</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <!-- Harga Mabar VIP -->
+        <div class="form-group">
+          <label>Harga Mabar VIP <span class="hint">Contoh: 10K, 15K</span></label>
+          <input type="text" class="form-control" id="optMabar" value="10k" placeholder="10k">
+        </div>
+
+        <!-- Durasi Tiap Slide -->
+        <div class="form-group">
+          <label>Durasi Slide <span class="hint">Dalam Detik</span></label>
+          <input type="number" class="form-control" id="optDurasi" value="5" min="2" max="20">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Target Like Live -->
+        <div class="form-group">
+          <label>Target Like Live <span class="hint">Contoh: 50k, 100k</span></label>
+          <input type="text" class="form-control" id="optTarget" value="50k" placeholder="50k">
+        </div>
+
+        <!-- Like Saat Ini -->
+        <div class="form-group">
+          <label>Like Saat Ini <span class="hint">Contoh: 25k</span></label>
+          <input type="text" class="form-control" id="optLikes" value="25.4k" placeholder="25.4k">
+        </div>
+      </div>
+
+      <!-- Toggle Tap-Tap Layar -->
+      <div class="toggle-group">
+        <div>
+          <div class="toggle-label">Widget Tap-Tap Layar & Share</div>
+          <div class="toggle-sub">Animasi tangan tap, floating hearts & like goal</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="optTapTap" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Hasil Link URL -->
+      <div class="result-box">
+        <div class="result-head">
+          <span class="result-title">🔗 LINK RESMI GITHUB PAGES ANDA:</span>
+        </div>
+        <div class="result-url" id="resultUrl">Loading...</div>
+        <button class="btn-copy" id="btnCopy">
+          <span>📋</span>
+          <span id="btnCopyText">SALIN LINK UNTUK TIKTOK LIVE STUDIO</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Info Penjelasan Hotkeys -->
+    <div class="info-card">
+      <strong>💡 Kenapa Tombol Hotkey ('S' & 'T') Tidak Berfungsi di TikTok Live Studio?</strong>
+      <ul>
+        <li>Di TikTok Live Studio & OBS, sumber <strong>"Tautan / Browser"</strong> berjalan di latar belakang (background CEF) yang <em>terisolasi</em>.</li>
+        <li>TikTok Live Studio mengunci input keyboard ke jendela utamanya atau ke game Anda, sehingga tombol <code>S</code> atau <code>T</code> tidak terkirim ke dalam halaman overlay.</li>
+        <li><strong>Solusi Terbaik & Resmi:</strong> Gunakan link dengan parameter URL di atas! Cukup ubah link di pengaturan sumber TikTok Live Studio, overlay langsung berubah otomatis tanpa perlu tekan keyboard apapun.</li>
+        <li><strong>Khusus OBS Studio:</strong> Jika memakai OBS, Anda bisa <em>Klik Kanan</em> sumber Browser -> pilih <strong>"Interact" (Interaksi)</strong>, maka tombol <code>S</code>, <code>T</code>, dan klik mouse akan berfungsi penuh!</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    const baseUrl = 'https://grndnstnmlk.github.io/overlay/';
+    const optType = document.getElementById('optType');
+    const optMabar = document.getElementById('optMabar');
+    const optDurasi = document.getElementById('optDurasi');
+    const optTarget = document.getElementById('optTarget');
+    const optLikes = document.getElementById('optLikes');
+    const optTapTap = document.getElementById('optTapTap');
+    const resultUrl = document.getElementById('resultUrl');
+    const btnCopy = document.getElementById('btnCopy');
+    const btnCopyText = document.getElementById('btnCopyText');
+
+    function generateUrl() {
+      const type = optType.value;
+      const path = (type === 'horizontal') ? 'overlay.html' : '';
+      const params = new URLSearchParams();
+
+      const mabar = optMabar.value.trim();
+      if (mabar && mabar.toLowerCase() !== '10k') {
+        params.set('mabar', mabar);
+      }
+
+      const durasi = parseInt(optDurasi.value, 10);
+      if (durasi && durasi !== 5) {
+        params.set('durasi', durasi.toString());
+      }
+
+      const target = optTarget.value.trim();
+      if (target && target.toLowerCase() !== '50k') {
+        params.set('target', target);
+      }
+
+      const likes = optLikes.value.trim();
+      if (likes && likes.toLowerCase() !== '25.4k') {
+        params.set('likes', likes);
+      }
+
+      if (!optTapTap.checked) {
+        params.set('taptap', '0');
+      }
+
+      const queryString = params.toString();
+      const finalUrl = baseUrl + path + (queryString ? '?' + queryString : '');
+      resultUrl.textContent = finalUrl;
+    }
+
+    [optType, optMabar, optDurasi, optTarget, optLikes, optTapTap].forEach(el => {
+      el.addEventListener('input', generateUrl);
+      el.addEventListener('change', generateUrl);
+    });
+
+    btnCopy.addEventListener('click', () => {
+      navigator.clipboard.writeText(resultUrl.textContent).then(() => {
+        btnCopyText.textContent = '✅ LINK BERHASIL DISALIN KE CLIPBOARD!';
+        setTimeout(() => {
+          btnCopyText.textContent = 'SALIN LINK UNTUK TIKTOK LIVE STUDIO';
+        }, 2500);
+      });
+    });
+
+    generateUrl();
+  </script>
+</body>
+</html>
