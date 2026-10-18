@@ -12,9 +12,11 @@ QRIS Resmi        : Malikalone (NMID: ID1026517657932)
 --------------------------------------------------------------------------------
 Gunakan link https:// di bawah ini untuk dimasukkan ke TikTok Live Studio / OBS:
 
-A. VERSI VERTIKAL (Khusus TikTok Live Studio - Resolusi 1080 x 1920):
+A. VERSI VERTIKAL (100% TIKTOK SAFE & ANTI-BANNED - Resolusi 1080 x 1920):
    👉 https://grndnstnmlk.github.io/overlay/
    (atau: https://grndnstnmlk.github.io/overlay/overlay_vertical.html)
+   *Versi ini sudah dibersihkan dari pemicu strike "Directing off-platform"
+    (Bebas teks .shop, bebas teks WhatsApp/Discord, dan bebas gambar barcode QRIS).*
 
 B. VERSI HORIZONTAL (Khusus OBS Studio / YouTube / Facebook - Resolusi 1920 x 1080):
    👉 https://grndnstnmlk.github.io/overlay/overlay.html
@@ -58,40 +60,41 @@ B. VERSI HORIZONTAL (Khusus OBS Studio / YouTube / Facebook - Resolusi 1920 x 10
    (Atau bisa centang "Local file" lalu Browse ke file overlay.html di laptop Anda).
 5. Atur ukuran resolusi:
    - Width  : 1920
-   - Height : 1080
+   - Height : 1080 (atau Height: 180 jika hanya ingin kotak banner tipis)
 6. Centang:
    [v] Shutdown source when not visible
    [v] Refresh browser when scene becomes active
 7. Klik OK. Overlay banner bawah akan langsung muncul di layar live stream!
 
 --------------------------------------------------------------------------------
-4. TOMBOL PINTAS (HOTKEYS) SAAT STREAMING
+4. PERINGATAN PENTING: MENGAPA TIKTOK MEMBERIKAN STRIKE
+   "DIRECTING VIEWERS OFF-PLATFORM" & CARA MENCEGAHNYA
 --------------------------------------------------------------------------------
-Ketika browser source aktif atau Anda mengklik overlay:
-- Tekan Tombol 'Q' : Membuka / Menutup foto resmi QRIS Fullscreen (Malikalone)
-                     agar penonton bisa scan besar di layar.
-- Tekan Tombol 'S' : Membuka panel menu konfigurasi untuk mengubah teks toko
-  atau Tombol 'C'    atau harga joki/mabar secara langsung di layar.
-- Tekan 'Escape'   : Menutup pop-up QRIS atau menu konfigurasi.
+TikTok memiliki bot AI OCR (Optical Character Recognition) yang memindai layar
+live Anda secara real-time setiap beberapa menit. Jika mendeteksi salah satu
+dari hal berikut, siaran akan langsung dibatasi / terkena pelanggaran:
 
---------------------------------------------------------------------------------
-5. FITUR-FITUR YANG ADA DI DALAM OVERLAY INI
---------------------------------------------------------------------------------
-1. Header Atas Beranimasi Bergerak (Infinite Running Marquee Ticker):
-   - Menampilkan status LIVE, promo Jagestore, ajakan TAP TAP LAYAR & SHARE,
-     serta ringkasan joki & mabar.
-2. Video Avatar Yu Zhong (Blood Serpent):
-   - Video bergerak looping dengan efek pulsing aura merah naga & partikel api.
-3. 3 Kategori Promosi Berputar Otomatis Setiap 5 Detik:
-   - Slide 1: TOP UP DIAMOND (jagestore.shop - Instant 24 Jam Legal)
-   - Slide 2: JASA JOKI RANK (Epic s/d Immortal - Order via DM TikTok/WhatsApp)
-   - Slide 3: OPEN MABAR VIP (10rb / Win - Mic On Voice Discord/In-game)
-4. QRIS Scanner Box:
-   - Ukuran QRIS telah diperbesar (112px x 112px) dengan kontras tajam sehingga
-     sangat mudah dideteksi oleh kamera aplikasi bank/e-wallet penonton.
-5. 3-Grid Summary Card:
-   - 3 kotak ringkas di bagian bawah yang selalu tampil permanen.
+X PEMICU UTAMA STRIKE TIKTOK:
+1. Menampilkan teks link domain website langsung di layar (seperti: jagestore.shop,
+   .com, .id, dll).
+2. Menampilkan gambar barcode QR Code / QRIS langsung di layar secara terus-menerus.
+3. Menulis kata "WhatsApp", "WA", "Discord", nomor telepon, atau nomor rekening bank.
+
+V CARA RESMI & AMAN STREAMER TIKTOK (TIKTOK SAFE STRATEGY):
+1. Arahkan Penonton ke "BIO PROFIL TIKTOK":
+   TikTok SANGAT MENGIZINKAN Anda mengarahkan penonton ke Bio akun TikTok Anda sendiri!
+   Oleh karena itu, overlay vertikal Anda sudah diubah menjadi:
+   - "TOP UP DIAMOND: CEK LINK DI BIO PROFIL"
+   - "ORDER JOKI / MABAR: VIA DM TIKTOK"
+2. Pasang Link Website Anda di Bio TikTok:
+   Buka profil akun TikTok Anda -> Edit Profil -> Masukkan link website
+   (https://jagestore.shop atau linktree Anda) di kolom Situs Web (Website Bio).
+3. Transaksi & QRIS via DM TikTok:
+   Ketika penonton ingin order joki atau top up, katakan pada penonton:
+   "Langsung DM TikTok ya guys atau klik link di bio profil!".
+   Kirimkan foto QRIS atau link jagestore.shop di dalam obrolan DM TikTok tersebut.
+   Ini 100% AMAN dan bebas dari deteksi bot AI siaran langsung!
 
 ================================================================================
-              Selamat Streaming & Semoga Makin Banyak Orderan!
+              Selamat Streaming & Semoga Akun Tetap Aman & Ramai!
 ================================================================================
