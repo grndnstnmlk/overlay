@@ -530,6 +530,234 @@
       box-shadow: 0 0 10px var(--crimson-core);
     }
 
+    /* ========================================================
+       WIDGET TAP-TAP LAYAR, LIKE GOAL & SHARE LIVE
+       Meningkatkan Algoritma FYP Live TikTok & Interaksi Penonton
+       ======================================================== */
+    .tap-share-widget {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(22, 8, 14, 0.95) 0%, rgba(12, 4, 8, 0.98) 100%);
+      border: 1.5px solid var(--border-red);
+      border-radius: 999px;
+      padding: 6px 18px 6px 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85), 0 0 20px var(--crimson-glow);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .tap-share-widget:hover {
+      border-color: var(--amber-gold);
+      box-shadow: 0 0 25px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+
+    .tap-share-widget.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px) scale(0.92);
+    }
+
+    /* Floating Hearts Container */
+    .floating-hearts-zone {
+      position: absolute;
+      bottom: 25px;
+      left: 10px;
+      width: 60px;
+      height: 130px;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 100;
+    }
+
+    .float-heart {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      font-size: 20px;
+      animation: floatUpHeart 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      pointer-events: none;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 0 6px rgba(255, 18, 61, 0.8));
+    }
+
+    @keyframes floatUpHeart {
+      0% {
+        transform: translate(-50%, 0) scale(0.6) rotate(0deg);
+        opacity: 1;
+      }
+      60% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--drift, 0px)), -100px) scale(1.3) rotate(var(--rot, 15deg));
+        opacity: 0;
+      }
+    }
+
+    /* Interactive Tap Finger Cluster */
+    .tap-finger-cluster {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--crimson-core), #b80d2b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 12px var(--crimson-glow);
+      flex-shrink: 0;
+    }
+
+    .tap-ripple {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid var(--crimson-core);
+      animation: rippleExpand 1.6s infinite ease-out;
+      pointer-events: none;
+    }
+
+    .tap-ripple.r2 {
+      animation-delay: 0.8s;
+    }
+
+    @keyframes rippleExpand {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    .tap-finger-icon {
+      font-size: 22px;
+      animation: tapBounce 1.1s infinite cubic-bezier(0.36, 0, 0.66, -0.56);
+      transform-origin: bottom center;
+    }
+
+    @keyframes tapBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      35% { transform: translateY(-4px) scale(0.9); }
+      55% { transform: translateY(3px) scale(1.1); }
+      75% { transform: translateY(-1px) scale(0.98); }
+    }
+
+    .tap-heart-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      font-size: 13px;
+      animation: heartPulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+    }
+
+    /* Info Column */
+    .tap-info-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .tap-head-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tap-main-text {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px var(--crimson-glow);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .share-badge {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--amber-gold);
+      background: rgba(255, 183, 3, 0.15);
+      border: 1px solid rgba(255, 183, 3, 0.5);
+      padding: 1px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+      animation: pulseShare 2s infinite;
+    }
+
+    @keyframes pulseShare {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 0 8px var(--gold-glow); }
+    }
+
+    .tap-goal-row {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      font-size: 11.5px;
+    }
+
+    .goal-label {
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.4px;
+    }
+
+    .goal-val {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--amber-gold);
+      text-shadow: 0 0 6px var(--gold-glow);
+    }
+
+    .goal-max {
+      color: #64748b;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .tap-progress-wrap {
+      width: 145px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .tap-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--crimson-core), var(--amber-gold));
+      border-radius: 999px;
+      box-shadow: 0 0 8px var(--crimson-core);
+      transition: width 0.4s ease;
+    }
+
+    /* Adaptasi Banner Tipis (Height <= 280px) */
+    @media (max-height: 280px) {
+      .tap-share-widget {
+        top: 8px;
+        right: 14px;
+        transform: scale(0.85);
+        transform-origin: top right;
+      }
+    }
+
     /* Floating Config Trigger Button */
     .config-trigger {
       position: absolute;
@@ -823,6 +1051,36 @@
 
   </div>
 
+  <!-- Floating Widget: Tap-Tap Layar, Like Goal & Share Live (100% TikTok Engagement Booster) -->
+  <div class="tap-share-widget" id="tapShareWidget" title="Klik untuk beri like! Tekan 'T' untuk sembunyikan widget">
+    <!-- Floating Hearts Zone -->
+    <div class="floating-hearts-zone" id="floatingHeartsZone"></div>
+
+    <!-- Cluster Tangan Animasi & Ripple Shockwave -->
+    <div class="tap-finger-cluster">
+      <div class="tap-ripple r1"></div>
+      <div class="tap-ripple r2"></div>
+      <div class="tap-finger-icon">👆</div>
+      <div class="tap-heart-badge">❤️</div>
+    </div>
+
+    <!-- Info Call-to-Action -->
+    <div class="tap-info-col">
+      <div class="tap-head-row">
+        <span class="tap-main-text">🔥 TAP-TAP LAYAR</span>
+        <span class="share-badge">↗️ SHARE LIVE</span>
+      </div>
+      <div class="tap-goal-row">
+        <span class="goal-label">TARGET LIKE:</span>
+        <span class="goal-val" id="dispLikeCount">25.4K</span>
+        <span class="goal-max" id="dispLikeTarget">/ 50K</span>
+      </div>
+      <div class="tap-progress-wrap">
+        <div class="tap-progress-bar" id="likeProgressBar" style="width: 50%;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Trigger Pengaturan Cepat -->
   <div class="config-trigger" id="configTrigger" title="Tekan 'S' untuk buka pengaturan">
     ⚙️
@@ -837,6 +1095,14 @@
     <div class="form-group">
       <label>Harga Mabar VIP</label>
       <input type="text" id="cfgMabarPrice" value="Rp 10.000 / Win">
+    </div>
+    <div class="form-group">
+      <label>Target Like Live</label>
+      <input type="number" id="cfgLikeTarget" value="50000" step="5000">
+    </div>
+    <div class="form-group">
+      <label>Like Saat Ini</label>
+      <input type="number" id="cfgLikeCurrent" value="25400" step="1000">
     </div>
     <div class="form-group">
       <label>Durasi Tiap Slide (Detik)</label>
@@ -915,8 +1181,82 @@
     const closeConfigModalBtn = document.getElementById('closeConfigModalBtn');
     const saveConfigBtn = document.getElementById('saveConfigBtn');
 
+    // ========================================================
+    // LOGIKA TAP-TAP LAYAR, LIKE GOAL & FLOATING HEARTS
+    // ========================================================
+    let likeCount = parseInt(localStorage.getItem('mlbb_like_count') || '25400', 10);
+    let likeTarget = parseInt(localStorage.getItem('mlbb_like_target') || '50000', 10);
+    const tapShareWidget = document.getElementById('tapShareWidget');
+    const dispLikeCount = document.getElementById('dispLikeCount');
+    const dispLikeTarget = document.getElementById('dispLikeTarget');
+    const likeProgressBar = document.getElementById('likeProgressBar');
+    const floatingHeartsZone = document.getElementById('floatingHeartsZone');
+
+    function formatNumber(num) {
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace('.0', '') + 'K';
+      }
+      return num.toLocaleString('id-ID');
+    }
+
+    function updateLikeDisplay() {
+      if (dispLikeCount) dispLikeCount.textContent = formatNumber(likeCount);
+      if (dispLikeTarget) dispLikeTarget.textContent = '/ ' + formatNumber(likeTarget);
+      if (likeProgressBar) {
+        const pct = Math.min((likeCount / likeTarget) * 100, 100);
+        likeProgressBar.style.width = pct + '%';
+      }
+    }
+
+    function spawnHeart(extraBurst = false) {
+      if (!floatingHeartsZone) return;
+      const heartIcons = ['❤️', '💖', '🔥', '✨', '⭐', '💓', '💥'];
+      const icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      
+      const el = document.createElement('div');
+      el.className = 'float-heart';
+      el.textContent = icon;
+      
+      const drift = (Math.random() - 0.5) * 60;
+      const rot = (Math.random() - 0.5) * 45;
+      el.style.setProperty('--drift', drift + 'px');
+      el.style.setProperty('--rot', rot + 'deg');
+      
+      if (extraBurst) {
+        el.style.animationDuration = (1.2 + Math.random() * 0.5) + 's';
+      }
+      
+      floatingHeartsZone.appendChild(el);
+      setTimeout(() => {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }, 2000);
+    }
+
+    // Auto spawn heart setiap 2.2 detik (simulasi tap penonton live)
+    setInterval(() => {
+      spawnHeart(false);
+      likeCount += Math.floor(Math.random() * 4) + 1;
+      updateLikeDisplay();
+    }, 2200);
+
+    // Interactive Tap / Click: burst 5 hearts & tambah like
+    if (tapShareWidget) {
+      tapShareWidget.addEventListener('click', () => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => spawnHeart(true), i * 75);
+        }
+        likeCount += 15;
+        localStorage.setItem('mlbb_like_count', likeCount.toString());
+        updateLikeDisplay();
+      });
+    }
+
     function toggleConfigModal() {
       configModal.classList.toggle('show');
+      if (configModal.classList.contains('show')) {
+        document.getElementById('cfgLikeTarget').value = likeTarget;
+        document.getElementById('cfgLikeCurrent').value = likeCount;
+      }
     }
 
     configTrigger.addEventListener('click', toggleConfigModal);
@@ -925,6 +1265,9 @@
     window.addEventListener('keydown', (e) => {
       if ((e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C') && document.activeElement.tagName !== 'INPUT') {
         toggleConfigModal();
+      }
+      if ((e.key === 't' || e.key === 'T') && document.activeElement.tagName !== 'INPUT') {
+        if (tapShareWidget) tapShareWidget.classList.toggle('hidden');
       }
       if (e.key === 'Escape') {
         if (configModal.classList.contains('show')) toggleConfigModal();
@@ -936,13 +1279,24 @@
       const durationSec = parseInt(document.getElementById('cfgDuration').value, 10) || 5;
       config.slideDuration = durationSec * 1000;
 
+      const newTarget = parseInt(document.getElementById('cfgLikeTarget').value, 10) || 50000;
+      const newCurrent = parseInt(document.getElementById('cfgLikeCurrent').value, 10) || 25400;
+      likeTarget = newTarget;
+      likeCount = newCurrent;
+      localStorage.setItem('mlbb_like_target', likeTarget.toString());
+      localStorage.setItem('mlbb_like_count', likeCount.toString());
+
       localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
       localStorage.setItem('mlbb_duration', config.slideDuration.toString());
 
       applyConfig();
+      updateLikeDisplay();
       resetProgressBar();
       toggleConfigModal();
     });
+
+    // Inisialisasi Tampilan Like Goal
+    updateLikeDisplay();
 
     // Canvas Partikel Embers Naga Merah (Yu Zhong)
     const canvas = document.getElementById('emberCanvas');

@@ -573,6 +573,233 @@
       overflow: hidden;
     }
 
+    /* ========================================================
+       5. TAP-TAP LAYAR, LIKE GOAL & SHARE LIVE DECK
+       ======================================================== */
+    .tap-share-deck-row {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(22, 8, 14, 0.95) 0%, rgba(12, 4, 8, 0.98) 100%);
+      border: 1.5px solid var(--border-red);
+      border-radius: 16px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75), 0 0 20px var(--crimson-glow);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .tap-share-deck-row:hover {
+      border-color: var(--amber-gold);
+      box-shadow: 0 0 25px var(--gold-glow);
+    }
+
+    .tap-share-deck-row.hidden {
+      display: none;
+    }
+
+    /* Floating Hearts Container */
+    .floating-hearts-zone {
+      position: absolute;
+      bottom: 40px;
+      left: 20px;
+      width: 80px;
+      height: 140px;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 100;
+    }
+
+    .float-heart {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      font-size: 22px;
+      animation: floatUpHeart 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      pointer-events: none;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 0 8px rgba(255, 18, 61, 0.85));
+    }
+
+    @keyframes floatUpHeart {
+      0% {
+        transform: translate(-50%, 0) scale(0.6) rotate(0deg);
+        opacity: 1;
+      }
+      60% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--drift, 0px)), -110px) scale(1.35) rotate(var(--rot, 15deg));
+        opacity: 0;
+      }
+    }
+
+    .tap-finger-cluster {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--crimson-core), #b80d2b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 14px var(--crimson-glow);
+      flex-shrink: 0;
+    }
+
+    .tap-ripple {
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 2px solid var(--crimson-core);
+      animation: rippleExpand 1.6s infinite ease-out;
+      pointer-events: none;
+    }
+
+    .tap-ripple.r2 {
+      animation-delay: 0.8s;
+    }
+
+    @keyframes rippleExpand {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+
+    .tap-finger-icon {
+      font-size: 24px;
+      animation: tapBounce 1.1s infinite cubic-bezier(0.36, 0, 0.66, -0.56);
+      transform-origin: bottom center;
+    }
+
+    @keyframes tapBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      35% { transform: translateY(-4px) scale(0.9); }
+      55% { transform: translateY(3px) scale(1.1); }
+      75% { transform: translateY(-1px) scale(0.98); }
+    }
+
+    .tap-heart-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      font-size: 14px;
+      animation: heartPulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+    }
+
+    .tap-center-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .tap-title-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tap-fire-badge {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px var(--crimson-glow);
+    }
+
+    .tap-sub-hint {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.3px;
+    }
+
+    .tap-goal-status {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .goal-label {
+      color: #cbd5e1;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .goal-val {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--amber-gold);
+      text-shadow: 0 0 8px var(--gold-glow);
+    }
+
+    .goal-max {
+      color: #64748b;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .tap-progress-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 2px;
+    }
+
+    .tap-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--crimson-core), var(--amber-gold));
+      border-radius: 999px;
+      box-shadow: 0 0 10px var(--crimson-core);
+      transition: width 0.4s ease;
+    }
+
+    .tap-share-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+
+    .share-btn-pill {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.45), rgba(255, 183, 3, 0.45));
+      border: 1px solid rgba(255, 183, 3, 0.8);
+      padding: 5px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 12px rgba(255, 183, 3, 0.35);
+      animation: pulseShare 2s infinite;
+      white-space: nowrap;
+    }
+
+    .share-sub-text {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--amber-gold);
+      letter-spacing: 0.4px;
+    }
+
     /* Floating Config Trigger Button */
     .config-trigger {
       position: absolute;
@@ -885,6 +1112,41 @@
       </div>
     </div>
 
+    <!-- 5. Tap-Tap Layar, Like Goal & Share Live Deck -->
+    <div class="tap-share-deck-row" id="tapShareDeckRow" title="Klik untuk beri like! Tekan 'T' untuk sembunyikan">
+      <div class="floating-hearts-zone" id="floatingHeartsZone"></div>
+
+      <!-- Left: Animated Finger Cluster -->
+      <div class="tap-finger-cluster">
+        <div class="tap-ripple r1"></div>
+        <div class="tap-ripple r2"></div>
+        <div class="tap-finger-icon">👆</div>
+        <div class="tap-heart-badge">❤️</div>
+      </div>
+
+      <!-- Center: Call to Action & Like Goal Progress -->
+      <div class="tap-center-info">
+        <div class="tap-title-line">
+          <span class="tap-fire-badge">🔥 BANTU TAP-TAP LAYAR</span>
+          <span class="tap-sub-hint">• 1 TAP = 1 DUKUNGAN</span>
+        </div>
+        <div class="tap-goal-status">
+          <span class="goal-label">TARGET LIKE LIVE:</span>
+          <span class="goal-val" id="dispLikeCount">25.4K</span>
+          <span class="goal-max" id="dispLikeTarget">/ 50K</span>
+        </div>
+        <div class="tap-progress-wrap">
+          <div class="tap-progress-bar" id="likeProgressBar" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <!-- Right: Share Action Badge -->
+      <div class="tap-share-action">
+        <span class="share-btn-pill">↗️ SHARE LIVE</span>
+        <span class="share-sub-text">BANTU TEMBUS FYP</span>
+      </div>
+    </div>
+
   </div>
 
   <!-- Trigger Pengaturan Cepat -->
@@ -901,6 +1163,14 @@
     <div class="form-group">
       <label>Harga Mabar VIP</label>
       <input type="text" id="cfgMabarPrice" value="Rp 10.000 / Win">
+    </div>
+    <div class="form-group">
+      <label>Target Like Live</label>
+      <input type="number" id="cfgLikeTarget" value="50000" step="5000">
+    </div>
+    <div class="form-group">
+      <label>Like Saat Ini</label>
+      <input type="number" id="cfgLikeCurrent" value="25400" step="1000">
     </div>
     <div class="form-group">
       <label>Durasi Tiap Slide (Detik)</label>
@@ -974,8 +1244,82 @@
     const closeConfigModalBtn = document.getElementById('closeConfigModalBtn');
     const saveConfigBtn = document.getElementById('saveConfigBtn');
 
+    // ========================================================
+    // LOGIKA TAP-TAP LAYAR, LIKE GOAL & FLOATING HEARTS
+    // ========================================================
+    let likeCount = parseInt(localStorage.getItem('mlbb_like_count') || '25400', 10);
+    let likeTarget = parseInt(localStorage.getItem('mlbb_like_target') || '50000', 10);
+    const tapShareDeckRow = document.getElementById('tapShareDeckRow');
+    const dispLikeCount = document.getElementById('dispLikeCount');
+    const dispLikeTarget = document.getElementById('dispLikeTarget');
+    const likeProgressBar = document.getElementById('likeProgressBar');
+    const floatingHeartsZone = document.getElementById('floatingHeartsZone');
+
+    function formatNumber(num) {
+      if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace('.0', '') + 'K';
+      }
+      return num.toLocaleString('id-ID');
+    }
+
+    function updateLikeDisplay() {
+      if (dispLikeCount) dispLikeCount.textContent = formatNumber(likeCount);
+      if (dispLikeTarget) dispLikeTarget.textContent = '/ ' + formatNumber(likeTarget);
+      if (likeProgressBar) {
+        const pct = Math.min((likeCount / likeTarget) * 100, 100);
+        likeProgressBar.style.width = pct + '%';
+      }
+    }
+
+    function spawnHeart(extraBurst = false) {
+      if (!floatingHeartsZone) return;
+      const heartIcons = ['❤️', '💖', '🔥', '✨', '⭐', '💓', '💥'];
+      const icon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      
+      const el = document.createElement('div');
+      el.className = 'float-heart';
+      el.textContent = icon;
+      
+      const drift = (Math.random() - 0.5) * 60;
+      const rot = (Math.random() - 0.5) * 45;
+      el.style.setProperty('--drift', drift + 'px');
+      el.style.setProperty('--rot', rot + 'deg');
+      
+      if (extraBurst) {
+        el.style.animationDuration = (1.2 + Math.random() * 0.5) + 's';
+      }
+      
+      floatingHeartsZone.appendChild(el);
+      setTimeout(() => {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }, 2000);
+    }
+
+    // Auto spawn heart setiap 2.2 detik (simulasi tap penonton live)
+    setInterval(() => {
+      spawnHeart(false);
+      likeCount += Math.floor(Math.random() * 4) + 1;
+      updateLikeDisplay();
+    }, 2200);
+
+    // Interactive Tap / Click: burst 5 hearts & tambah like
+    if (tapShareDeckRow) {
+      tapShareDeckRow.addEventListener('click', () => {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => spawnHeart(true), i * 75);
+        }
+        likeCount += 15;
+        localStorage.setItem('mlbb_like_count', likeCount.toString());
+        updateLikeDisplay();
+      });
+    }
+
     function toggleConfigModal() {
       configModal.classList.toggle('show');
+      if (configModal.classList.contains('show')) {
+        document.getElementById('cfgLikeTarget').value = likeTarget;
+        document.getElementById('cfgLikeCurrent').value = likeCount;
+      }
     }
 
     configTrigger.addEventListener('click', toggleConfigModal);
@@ -984,6 +1328,9 @@
     window.addEventListener('keydown', (e) => {
       if ((e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C') && document.activeElement.tagName !== 'INPUT') {
         toggleConfigModal();
+      }
+      if ((e.key === 't' || e.key === 'T') && document.activeElement.tagName !== 'INPUT') {
+        if (tapShareDeckRow) tapShareDeckRow.classList.toggle('hidden');
       }
       if (e.key === 'Escape') {
         if (configModal.classList.contains('show')) toggleConfigModal();
@@ -995,13 +1342,24 @@
       const durationSec = parseInt(document.getElementById('cfgDuration').value, 10) || 5;
       config.slideDuration = durationSec * 1000;
 
+      const newTarget = parseInt(document.getElementById('cfgLikeTarget').value, 10) || 50000;
+      const newCurrent = parseInt(document.getElementById('cfgLikeCurrent').value, 10) || 25400;
+      likeTarget = newTarget;
+      likeCount = newCurrent;
+      localStorage.setItem('mlbb_like_target', likeTarget.toString());
+      localStorage.setItem('mlbb_like_count', likeCount.toString());
+
       localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
       localStorage.setItem('mlbb_duration', config.slideDuration.toString());
 
       applyConfig();
+      updateLikeDisplay();
       resetProgressBar();
       toggleConfigModal();
     });
+
+    // Inisialisasi Tampilan Like Goal
+    updateLikeDisplay();
 
     // Canvas Partikel Embers Naga Merah (Yu Zhong)
     const canvas = document.getElementById('emberCanvas');
