@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Blood Serpent Stream Overlay (Landscape 1920x1080) • JAGÈSTORE</title>
+  <title>MLBB Blood Serpent Stream Overlay (Landscape - 100% TikTok Safe) • JAGÈSTORE</title>
   
   <!-- Google Fonts: Rajdhani & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +59,7 @@
 
     /* ========================================================
        CONTAINER UTAMA OVERLAY (SMART AUTO-FIT)
-       Aman di 1080p, 720p, maupun mode Banner Tipis di OBS
+       Aman di 1080p, 720p, maupun mode Banner Tipis di OBS / TikTok Studio
        ======================================================== */
     .overlay-wrapper {
       position: absolute;
@@ -75,7 +75,7 @@
       max-width: 98vw;
     }
 
-    /* JIKA BROWSER SOURCE DI OBS DIPASANG SEBAGAI BANNER TIPIS (Tinggi <= 280px) */
+    /* JIKA BROWSER SOURCE DI-SET SEBAGAI BANNER TIPIS (Tinggi <= 280px) */
     @media (max-height: 280px) {
       .overlay-wrapper {
         bottom: auto;
@@ -98,7 +98,8 @@
     }
 
     /* ========================================================
-       1. TOP RUNNING MARQUEE TICKER (ANIMASI BERGERAK MENGALIR)
+       1. TOP RUNNING MARQUEE TICKER (100% TIKTOK SAFE)
+       Tanpa URL .shop / Tanpa WA / Tanpa QRIS
        ======================================================== */
     .top-ticker {
       width: 960px;
@@ -188,7 +189,6 @@
         inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
-    /* Ambient Video Reflection di Belakang Frame */
     .ambient-glow-video {
       position: absolute;
       inset: -6px;
@@ -205,7 +205,6 @@
       object-fit: cover;
     }
 
-    /* Inner Container Card */
     .promo-container {
       position: relative;
       width: 100%;
@@ -421,13 +420,16 @@
 
     .highlight-link {
       color: #ffffff;
-      background: linear-gradient(135deg, rgba(255, 18, 61, 0.35), rgba(255, 183, 3, 0.35));
-      border: 1px solid rgba(255, 183, 3, 0.7);
-      padding: 1px 7px;
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.4), rgba(255, 183, 3, 0.4));
+      border: 1px solid rgba(255, 183, 3, 0.8);
+      padding: 2px 8px;
       border-radius: 4px;
       font-weight: 800;
       letter-spacing: 0.4px;
       box-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .highlight-price {
@@ -442,76 +444,54 @@
     }
 
     /* ========================================================
-       QRIS SCANNER BOX (74px x 74px - FIT PAS, TIDAK TERPOTONG)
+       TIKTOK SAFE CALL-TO-ACTION CARD (PENGGANTI QR BARCODE)
+       100% Bebas Strike Directing Off-Platform
        ======================================================== */
-    .qris-card {
+    .tiktok-safe-card {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #17070e;
+      background: linear-gradient(180deg, #1d0812 0%, #12040a 100%);
       border: 2px solid var(--border-red);
-      border-radius: 11px;
-      padding: 4px 10px;
+      border-radius: 12px;
+      padding: 6px 14px;
       flex-shrink: 0;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 18, 61, 0.2);
-      cursor: pointer;
       transition: all 0.25s ease;
-      position: relative;
     }
 
-    .qris-card:hover {
+    .tiktok-safe-card:hover {
       border-color: var(--amber-gold);
       box-shadow: 0 0 16px var(--gold-glow);
       transform: translateY(-2px);
     }
 
-    /* Thumbnail QRIS 74px x 74px pas di dalam banner 90px */
-    .qris-thumb-box {
-      position: relative;
-      width: 74px;
-      height: 74px;
-      background: #ffffff;
-      border-radius: 6px;
-      padding: 3px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-      flex-shrink: 0;
+    .bio-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--crimson-core), var(--amber-gold));
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 12px var(--crimson-glow);
+      animation: pulseBioIcon 2s infinite ease-in-out;
+      flex-shrink: 0;
     }
 
-    .qris-thumb-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
+    @keyframes pulseBioIcon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); box-shadow: 0 0 16px var(--amber-gold); }
     }
 
-    .qris-details {
+    .bio-details {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .qris-top-row {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .qris-label {
-      font-size: 9.5px;
-      font-weight: 800;
-      color: #ff3355;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      background: rgba(255, 18, 61, 0.2);
-      padding: 1px 5px;
-      border-radius: 3px;
-    }
-
-    .qris-merchant {
+    .bio-brand {
       font-family: 'Rajdhani', sans-serif;
       font-size: 15px;
       font-weight: 800;
@@ -520,12 +500,16 @@
       white-space: nowrap;
     }
 
-    .qris-support {
-      font-size: 9px;
+    .bio-action {
+      font-size: 10px;
       font-weight: 800;
       color: var(--amber-gold);
       white-space: nowrap;
       letter-spacing: 0.5px;
+      background: rgba(255, 183, 3, 0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 183, 3, 0.4);
     }
 
     /* Segmented Indicator Progress Bar */
@@ -544,86 +528,6 @@
       background: linear-gradient(90deg, var(--crimson-core), var(--amber-gold));
       width: 0%;
       box-shadow: 0 0 10px var(--crimson-core);
-    }
-
-    /* Modal Popup Full QRIS Foto Malikalone */
-    .qris-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .qris-modal-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .qris-modal-content {
-      background: #14070c;
-      border: 2px solid var(--crimson-core);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 0 40px var(--crimson-glow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      max-width: 440px;
-      position: relative;
-      transform: scale(0.95);
-      transition: transform 0.3s ease;
-    }
-
-    .qris-modal-overlay.active .qris-modal-content {
-      transform: scale(1);
-    }
-
-    .qris-modal-header {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255, 18, 61, 0.3);
-      padding-bottom: 8px;
-    }
-
-    .qris-modal-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .qris-modal-close {
-      background: none;
-      border: none;
-      color: #cbd5e1;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .qris-modal-close:hover { color: #fff; }
-
-    .qris-modal-img {
-      width: 100%;
-      max-height: 520px;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .qris-modal-footer {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--amber-gold);
-      text-align: center;
     }
 
     /* Floating Config Trigger Button */
@@ -694,6 +598,14 @@
       color: #fff;
     }
 
+    .config-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
     .form-group {
       margin-bottom: 12px;
     }
@@ -747,7 +659,7 @@
   <!-- Container Utama (Auto-Fit) -->
   <div class="overlay-wrapper">
     
-    <!-- Top Running Marquee Ticker Bar (Animasi Bergerak Mengalir) -->
+    <!-- Top Running Marquee Ticker Bar (100% TikTok Safe) -->
     <div class="top-ticker">
       <div class="ticker-track">
         <!-- Loop 1 -->
@@ -758,26 +670,26 @@
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span class="live-dot"></span>
-          <span>TOP UP MLBB:</span>
-          <span class="ticker-highlight" id="tickerStore">jagestore.shop</span>
+          <span>TOP UP DIAMOND MLBB:</span>
+          <span class="ticker-highlight">CEK LINK DI BIO PROFIL</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>👑</span>
           <span>MABAR VIP:</span>
-          <span class="ticker-highlight" id="tickerMabar">10RB / WIN</span>
+          <span class="ticker-highlight" id="tickerMabar">10RB / WIN (MIC ON)</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
-          <span>📲</span>
-          <span>QRIS RESMI:</span>
-          <span class="ticker-highlight">Malikalone</span>
+          <span>🛡️</span>
+          <span>100% LEGAL & AMAN:</span>
+          <span class="ticker-highlight">FAST RESPON DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
 
@@ -789,26 +701,26 @@
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span class="live-dot"></span>
-          <span>TOP UP MLBB:</span>
-          <span class="ticker-highlight">jagestore.shop</span>
+          <span>TOP UP DIAMOND MLBB:</span>
+          <span class="ticker-highlight">CEK LINK DI BIO PROFIL</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>⚔️</span>
           <span>JOKI RANK:</span>
-          <span class="ticker-highlight">ORDER VIA DM TIKTOK / WA</span>
+          <span class="ticker-highlight">ORDER VIA DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
           <span>👑</span>
           <span>MABAR VIP:</span>
-          <span class="ticker-highlight">10RB / WIN</span>
+          <span class="ticker-highlight">10RB / WIN (MIC ON)</span>
         </div>
         <span class="ticker-separator">•</span>
         <div class="ticker-item">
-          <span>📲</span>
-          <span>QRIS RESMI:</span>
-          <span class="ticker-highlight">Malikalone</span>
+          <span>🛡️</span>
+          <span>100% LEGAL & AMAN:</span>
+          <span class="ticker-highlight">FAST RESPON DM TIKTOK</span>
         </div>
         <span class="ticker-separator">•</span>
       </div>
@@ -840,7 +752,7 @@
 
         <div class="vertical-divider"></div>
 
-        <!-- Carousel Slides: Tepat 3 Kategori Promosi -->
+        <!-- Carousel Slides: Tepat 3 Kategori Promosi (100% TikTok Safe) -->
         <div class="promo-content">
           
           <!-- Slide 1: TOP UP DIAMOND -->
@@ -851,16 +763,14 @@
               <span class="badge-pill">INSTANT 24 JAM</span>
             </div>
             <div class="subtitle">
-              <span>Weekly Pass Rp 26k</span>
+              <span>Weekly Pass & Diamond Hemat</span>
               <span class="highlight-dot">•</span>
-              <span>Order Otomatis di:</span>
-              <span class="highlight-link" id="dispStoreUrl">jagestore.shop</span>
-              <span class="highlight-dot">•</span>
-              <span>Support QRIS & All Payment</span>
+              <span>Order Otomatis:</span>
+              <span class="highlight-link">👉 KLIK LINK DI BIO PROFIL</span>
             </div>
           </div>
 
-          <!-- Slide 2: JASA JOKI RANK (Tanpa 12rb, sesuai request) -->
+          <!-- Slide 2: JASA JOKI RANK -->
           <div class="slide" id="slide-1">
             <div class="title">
               <span class="icon-chip">⚔️</span>
@@ -872,8 +782,7 @@
               <span class="highlight-dot">•</span>
               <span>Pekerjaan Cepat</span>
               <span class="highlight-dot">•</span>
-              <span>Order di:</span>
-              <span class="highlight-link">DM TIKTOK / WHATSAPP</span>
+              <span class="highlight-link">📩 ORDER VIA DM TIKTOK</span>
             </div>
           </div>
 
@@ -887,25 +796,20 @@
             <div class="subtitle">
               <span class="highlight-price" id="dispMabarPrice">Rp 10.000 / Win</span>
               <span class="highlight-dot">•</span>
-              <span>Push Rank Bareng Streamer</span>
+              <span>Push Rank Winstreak</span>
               <span class="highlight-dot">•</span>
-              <span>Voice Discord Ready • Slot Terbatas!</span>
+              <span class="highlight-link">CHAT DM TIKTOK SEKARANG</span>
             </div>
           </div>
 
         </div>
 
-        <!-- QRIS Pembayaran Card Foto Asli (Malikalone) - 74px x 74px Pas & Tidak Terpotong -->
-        <div class="qris-card" id="qrisCard" title="Klik untuk lihat QRIS ukuran penuh (Malikalone)">
-          <div class="qris-thumb-box">
-            <img class="qris-thumb-img" src="qris_clean.png" alt="QRIS Malikalone">
-          </div>
-          <div class="qris-details">
-            <div class="qris-top-row">
-              <span class="qris-label">QRIS</span>
-              <span class="qris-merchant">Malikalone</span>
-            </div>
-            <span class="qris-support">⚡ SCAN TO PAY • ALL PAYMENT</span>
+        <!-- Safe Order Widget Pengganti QRIS (100% Aman dari Strike Off-Platform) -->
+        <div class="tiktok-safe-card">
+          <div class="bio-icon-circle">🔗</div>
+          <div class="bio-details">
+            <span class="bio-brand">JAGÈSTORE</span>
+            <span class="bio-action">👉 CEK LINK DI BIO</span>
           </div>
         </div>
 
@@ -919,20 +823,6 @@
 
   </div>
 
-  <!-- Modal QRIS Full Size (Foto Asli photo_2026-10-17_21-00-14.jpg) -->
-  <div class="qris-modal-overlay" id="qrisModalOverlay">
-    <div class="qris-modal-content">
-      <div class="qris-modal-header">
-        <span class="qris-modal-title">QRIS PEMBAYARAN RESMI</span>
-        <button class="qris-modal-close" id="closeQrisModalBtn">&times;</button>
-      </div>
-      <img class="qris-modal-img" src="photo_2026-10-17_21-00-14.jpg" alt="QRIS Pembayaran Malikalone">
-      <div class="qris-modal-footer">
-        NMID: ID1026517657932 • A01 • SATU QRIS UNTUK SEMUA (BCA, DANA, GOPAY, OVO, DLL)
-      </div>
-    </div>
-  </div>
-
   <!-- Trigger Pengaturan Cepat -->
   <div class="config-trigger" id="configTrigger" title="Tekan 'S' untuk buka pengaturan">
     ⚙️
@@ -942,11 +832,7 @@
   <div class="config-modal" id="configModal">
     <div class="config-header">
       <div class="config-title">⚙️ PENGATURAN OVERLAY STREAM</div>
-      <button class="qris-modal-close" id="closeConfigModalBtn">&times;</button>
-    </div>
-    <div class="form-group">
-      <label>Website Top Up</label>
-      <input type="text" id="cfgStoreUrl" value="jagestore.shop">
+      <button class="config-close" id="closeConfigModalBtn">&times;</button>
     </div>
     <div class="form-group">
       <label>Harga Mabar VIP</label>
@@ -962,7 +848,6 @@
   <script>
     // Konfigurasi & State
     const config = {
-      storeUrl: localStorage.getItem('mlbb_store_url') || 'jagestore.shop',
       mabarPrice: localStorage.getItem('mlbb_mabar_price') || 'Rp 10.000 / Win',
       slideDuration: parseInt(localStorage.getItem('mlbb_duration') || '5000', 10),
     };
@@ -984,12 +869,8 @@
     let animFrame = null;
 
     function applyConfig() {
-      const cleanStore = config.storeUrl.replace(/^https?:\/\//, '');
-      document.getElementById('tickerStore').textContent = cleanStore;
-      document.getElementById('dispStoreUrl').textContent = cleanStore;
-      
-      document.getElementById('tickerMabar').textContent = '10RB / WIN';
       document.getElementById('dispMabarPrice').textContent = config.mabarPrice;
+      document.getElementById('tickerMabar').textContent = config.mabarPrice.replace('Rp ', '').replace('.000', 'K') + ' / WIN (MIC ON)';
     }
 
     function goToSlide(index) {
@@ -1028,21 +909,6 @@
       animFrame = requestAnimationFrame(updateProgress);
     }
 
-    // Modal QRIS Full Size
-    const qrisCard = document.getElementById('qrisCard');
-    const qrisModal = document.getElementById('qrisModalOverlay');
-    const closeQrisModalBtn = document.getElementById('closeQrisModalBtn');
-
-    function toggleQrisModal() {
-      qrisModal.classList.toggle('active');
-    }
-
-    qrisCard.addEventListener('click', toggleQrisModal);
-    closeQrisModalBtn.addEventListener('click', toggleQrisModal);
-    qrisModal.addEventListener('click', (e) => {
-      if (e.target === qrisModal) toggleQrisModal();
-    });
-
     // Modal Konfigurasi Cepat
     const configModal = document.getElementById('configModal');
     const configTrigger = document.getElementById('configTrigger');
@@ -1060,22 +926,16 @@
       if ((e.key === 's' || e.key === 'S' || e.key === 'c' || e.key === 'C') && document.activeElement.tagName !== 'INPUT') {
         toggleConfigModal();
       }
-      if ((e.key === 'q' || e.key === 'Q') && document.activeElement.tagName !== 'INPUT') {
-        toggleQrisModal();
-      }
       if (e.key === 'Escape') {
         if (configModal.classList.contains('show')) toggleConfigModal();
-        if (qrisModal.classList.contains('active')) toggleQrisModal();
       }
     });
 
     saveConfigBtn.addEventListener('click', () => {
-      config.storeUrl = document.getElementById('cfgStoreUrl').value.trim() || 'jagestore.shop';
       config.mabarPrice = document.getElementById('cfgMabarPrice').value.trim() || 'Rp 10.000 / Win';
       const durationSec = parseInt(document.getElementById('cfgDuration').value, 10) || 5;
       config.slideDuration = durationSec * 1000;
 
-      localStorage.setItem('mlbb_store_url', config.storeUrl);
       localStorage.setItem('mlbb_mabar_price', config.mabarPrice);
       localStorage.setItem('mlbb_duration', config.slideDuration.toString());
 
