@@ -64,12 +64,13 @@
     .overlay-wrapper {
       position: absolute;
       bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 48px;
+      left: auto;
+      transform: none;
       z-index: 10;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
       gap: 6px;
       width: max-content;
       max-width: 98vw;
@@ -80,7 +81,9 @@
       .overlay-wrapper {
         bottom: auto;
         top: 50%;
-        transform: translate(-50%, -50%);
+        right: 48px;
+        left: auto;
+        transform: translateY(-50%);
         gap: 5px;
       }
       #emberCanvas {
@@ -92,8 +95,10 @@
     @media (max-height: 820px) and (min-height: 281px) {
       .overlay-wrapper {
         bottom: 12px;
-        transform: translateX(-50%) scale(0.92);
-        transform-origin: bottom center;
+        right: 32px;
+        left: auto;
+        transform: scale(0.92);
+        transform-origin: bottom right;
       }
     }
 
@@ -420,16 +425,31 @@
 
     .highlight-link {
       color: #ffffff;
-      background: linear-gradient(135deg, rgba(255, 18, 61, 0.4), rgba(255, 183, 3, 0.4));
-      border: 1px solid rgba(255, 183, 3, 0.8);
-      padding: 2px 8px;
-      border-radius: 4px;
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.45), rgba(255, 183, 3, 0.45));
+      border: 1px solid rgba(255, 183, 3, 0.85);
+      padding: 2px 10px;
+      border-radius: 6px;
       font-weight: 800;
       letter-spacing: 0.4px;
       box-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .highlight-link.red {
+      background: linear-gradient(135deg, rgba(255, 18, 61, 0.55), rgba(184, 13, 43, 0.75));
+      border: 1px solid rgba(255, 18, 61, 0.9);
+      box-shadow: 0 0 10px rgba(255, 18, 61, 0.4);
+      color: #ffffff;
+    }
+
+    .highlight-link.gold {
+      background: linear-gradient(135deg, rgba(255, 183, 3, 0.35), rgba(217, 119, 6, 0.55));
+      border: 1px solid rgba(255, 183, 3, 0.9);
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+      color: #ffd166;
     }
 
     .highlight-price {
@@ -993,8 +1013,7 @@
             <div class="subtitle">
               <span>Weekly Pass & Diamond Hemat</span>
               <span class="highlight-dot">•</span>
-              <span>Order Otomatis:</span>
-              <span class="highlight-link">👉 KLIK LINK DI BIO PROFIL</span>
+              <span class="highlight-link gold">💎 ORDER: LINK DI BIO (JAGÈSTORE)</span>
             </div>
           </div>
 
@@ -1008,7 +1027,7 @@
             <div class="subtitle">
               <span class="highlight-price">Epic → Legend → Mythic → Honor → Immortal</span>
               <span class="highlight-dot">•</span>
-              <span>Konsultasi & Nego Bebas di DM</span>
+              <span class="highlight-link red">📩 NEGO: CHAT DM TIKTOK</span>
             </div>
           </div>
 
@@ -1016,27 +1035,18 @@
           <div class="slide" id="slide-2">
             <div class="title">
               <span class="icon-chip">👑</span>
-              <span>OPEN MABAR VIP STREAMER</span>
+              <span>OPEN MABAR VIP PUSH RANK BARENG STREAMER</span>
               <span class="badge-pill gold" id="dispMabarPill">10RB / WIN</span>
             </div>
             <div class="subtitle">
               <span class="highlight-price" id="dispMabarPrice">Rp 10.000 / Win</span>
               <span class="highlight-dot">•</span>
-              <span>Push Rank Winstreak Bareng Streamer</span>
+              <span>Push Rank Winstreak</span>
               <span class="highlight-dot">•</span>
-              <span class="highlight-link">👉 ORDER: LINK BIO (SOCIABUZZ)</span>
+              <span class="highlight-link gold">👑 ORDER: LINK BIO (SOCIABUZZ)</span>
             </div>
           </div>
 
-        </div>
-
-        <!-- Safe Order Widget yang Sinkron Dinamis (Bukan Jagèstore Terus & Bebas Tabrakan) -->
-        <div class="tiktok-safe-card" id="tiktokSafeCard">
-          <div class="bio-icon-circle" id="bioIcon">💎</div>
-          <div class="bio-details">
-            <span class="bio-brand" id="bioBrand">JAGÈSTORE</span>
-            <span class="bio-action" id="bioAction">👉 CEK LINK DI BIO</span>
-          </div>
         </div>
 
       </div>
@@ -1117,35 +1127,19 @@
     };
 
     const slides = document.querySelectorAll('.slide');
-    const badge = document.getElementById('promoBadge');
-    const badgeSub = document.getElementById('badgeSub');
-    const progressLine = document.getElementById('progressLine');
-    const bioIcon = document.getElementById('bioIcon');
-    const bioBrand = document.getElementById('bioBrand');
-    const bioAction = document.getElementById('bioAction');
-    
-    // Tepat 3 Kategori Promosi (Sinkron Kiri & Kanan)
+    // 3 Kategori Promosi
     const slideMeta = [
       { 
         tag: 'TOP UP', 
-        sub: 'JAGÈSTORE', 
-        icon: '💎', 
-        brand: 'JAGÈSTORE', 
-        action: '👉 CEK LINK DI BIO' 
+        sub: 'JAGÈSTORE' 
       },
       { 
         tag: 'JOKI RANK', 
-        sub: 'DM TIKTOK', 
-        icon: '📩', 
-        brand: 'NEGO DI DM', 
-        action: '💬 CHAT DM TIKTOK' 
+        sub: 'NEGO DM' 
       },
       { 
         tag: 'MABAR VIP', 
-        sub: 'SOCIABUZZ', 
-        icon: '👑', 
-        brand: 'SOCIABUZZ', 
-        action: '👉 KLIK LINK DI BIO' 
+        sub: 'SOCIABUZZ' 
       }
     ];
 
@@ -1169,9 +1163,6 @@
       if (slideMeta[currentIndex]) {
         badge.textContent = slideMeta[currentIndex].tag;
         badgeSub.textContent = slideMeta[currentIndex].sub;
-        if (bioIcon) bioIcon.textContent = slideMeta[currentIndex].icon;
-        if (bioBrand) bioBrand.textContent = slideMeta[currentIndex].brand;
-        if (bioAction) bioAction.textContent = slideMeta[currentIndex].action;
       }
 
       resetProgressBar();
@@ -1439,6 +1430,23 @@
         if (tapShareWidget) {
           if (hide) tapShareWidget.classList.add('hidden');
           else tapShareWidget.classList.remove('hidden');
+        }
+      }
+
+      // 6. Posisi Overlay Horizontal (?pos=right atau ?pos=center atau ?right=60)
+      const wrapper = document.querySelector('.overlay-wrapper');
+      if (wrapper) {
+        if (params.get('pos') === 'center') {
+          wrapper.style.left = '50%';
+          wrapper.style.right = 'auto';
+          wrapper.style.transform = 'translateX(-50%)';
+        } else if (params.has('right')) {
+          const r = parseInt(params.get('right'), 10);
+          if (!isNaN(r)) {
+            wrapper.style.right = r + 'px';
+            wrapper.style.left = 'auto';
+            wrapper.style.transform = 'none';
+          }
         }
       }
     }
