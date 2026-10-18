@@ -1232,11 +1232,71 @@
       }, 2000);
     }
 
-    // Auto spawn heart setiap 2.2 detik (simulasi tap penonton live)
+    // ========================================================
+    // TIKTOK LIVE REAL-TIME SYNC (WEBSOCKET CLIENT)
+    // ========================================================
+    let isLiveSynced = false;
+    let wsSync = null;
+
+    function initTikTokLiveSync() {
+      try {
+        wsSync = new WebSocket('ws://localhost:8080');
+
+        wsSync.onopen = () => {
+          console.log('⚡ [Live Sync] Terhubung ke TikTok Live Bridge!');
+          isLiveSynced = true;
+          const badge = document.querySelector('.tap-main-text, .tap-fire-badge');
+          if (badge) badge.title = 'Live Sync: Aktif (Tersambung ke TikTok)';
+        };
+
+        wsSync.onmessage = (event) => {
+          try {
+            const msg = JSON.parse(event.data);
+            if (msg.type === 'like') {
+              if (msg.totalLikeCount) {
+                likeCount = msg.totalLikeCount;
+              } else if (msg.likeCount) {
+                likeCount += msg.likeCount;
+              }
+              updateLikeDisplay();
+
+              const heartsCount = Math.min(msg.likeCount || 2, 6);
+              for (let i = 0; i < heartsCount; i++) {
+                setTimeout(() => spawnHeart(true), i * 70);
+              }
+            } else if (msg.type === 'stats') {
+              if (msg.totalLikeCount) {
+                likeCount = msg.totalLikeCount;
+                updateLikeDisplay();
+              }
+            }
+          } catch (e) {}
+        };
+
+        wsSync.onclose = () => {
+          isLiveSynced = false;
+          setTimeout(initTikTokLiveSync, 4000);
+        };
+
+        wsSync.onerror = () => {
+          isLiveSynced = false;
+          try { wsSync.close(); } catch(e) {}
+        };
+      } catch (e) {
+        isLiveSynced = false;
+        setTimeout(initTikTokLiveSync, 5000);
+      }
+    }
+
+    initTikTokLiveSync();
+
+    // Auto spawn heart setiap 2.2 detik (HANYA AKTIF JIKA TIDAK TERHUBUNG KE LIVE SYNC)
     setInterval(() => {
-      spawnHeart(false);
-      likeCount += Math.floor(Math.random() * 4) + 1;
-      updateLikeDisplay();
+      if (!isLiveSynced) {
+        spawnHeart(false);
+        likeCount += Math.floor(Math.random() * 4) + 1;
+        updateLikeDisplay();
+      }
     }, 2200);
 
     // Interactive Tap / Click: burst 5 hearts & tambah like

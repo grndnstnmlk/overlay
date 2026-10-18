@@ -148,6 +148,32 @@ KHUSUS OBS STUDIO (JIKA PAKAI OBS):
 - Jendela interaksi akan muncul, dan tombol keyboard 'S', 'T', serta klik mouse
   akan berfungsi 100%!
 
+--------------------------------------------------------------------------------
+7. CARA MENYINKRONKAN JUMLAH LIKE DENGAN TIKTOK LIVE ASLI (REAL-TIME)
+--------------------------------------------------------------------------------
+Agar jumlah like dan animasi hati meledak secara 100% real-time mengikuti penonton
+asli yang sedang tap-tap layar di HP mereka:
+
+LANGKAH MUDAH (SUDAH KAMI SEDIAKAN FITUR RESMI & GRATIS):
+1. Buka folder overlay di komputer Anda:
+   C:\Users\USER\Downloads\Githubku\overlay
+2. Klik 2x file "START_SYNC_TIKTOK.bat" (atau jalankan: node sync_tiktok.js).
+3. Masukkan Username akun TikTok Anda yang sedang live (misal: @malikalone).
+4. Di aplikasi TikTok Live Studio atau OBS, Anda bisa memasukkan salah satu link:
+   - Link Lokal Bebas Lag : http://localhost:8080/index.html (Vertikal)
+   - Link Lokal Horizontal: http://localhost:8080/overlay.html
+   (Atau tetap gunakan link resmi GitHub Pages).
+5. SELESAI!
+   - Saat penonton di HP mengetuk layar / tap-tap, bot bridge akan menangkap
+     event like tersebut secara instan.
+   - Angka target like di overlay akan bertambah sesuai live TikTok sungguhan!
+   - Efek ledakan partikel hati (burst hearts) akan otomatis memancar di layar!
+
+CATATAN:
+- Jika script sync tidak dijalankan atau sedang offline, overlay akan otomatis
+  masuk ke mode simulasi (animasi hati tetap jalan pelan) agar tampilan live
+  tidak terlihat kaku/mati.
+
 ================================================================================
               Selamat Streaming & Semoga Akun Tetap Aman & Ramai!
 ================================================================================
