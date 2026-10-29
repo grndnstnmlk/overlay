@@ -126,7 +126,7 @@ function monitorAccount(cleanUsername) {
 
     const tiktokLive = new TikTokLiveConnection(cleanUsername, {
       processInitialData: true,
-      enableExtendedGiftInfo: true
+      enableExtendedGiftInfo: false
     });
     state.conn = tiktokLive;
 
@@ -201,7 +201,8 @@ function monitorAccount(cleanUsername) {
     });
 
     tiktokLive.on('error', (err) => {
-      console.error(`[TikTok: @${cleanUsername}] ⚠️ Peringatan:`, err.message || err);
+      const msg = err?.info ? `${err.info} - ${err.exception?.message || ''}` : (err?.message || err);
+      console.error(`[TikTok: @${cleanUsername}] ⚠️ Peringatan:`, msg);
     });
 
   } catch (err) {
