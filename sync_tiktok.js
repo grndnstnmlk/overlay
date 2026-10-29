@@ -73,6 +73,41 @@ wss.on('connection', (ws) => {
   connectedClients.add(ws);
   console.log(`[Overlay] ✅ Browser overlay tersambung! (Total: ${connectedClients.size} layar aktif)`);
 
+  // Kirim data akumulasi like saat ini langsung ke overlay yang baru terhubung
+  const currentTotal = getCombinedTotalLikes();
+  ws.send(JSON.stringify({
+    type: 'init',
+    totalLikeCount: currentTotal,
+    accounts: Object.keys(accountStates).map(u => ({
+      username: u,
+      isLive: accountStates[u].isLive,
+      likeTotal: accountStates[u].likeTotal
+    }))
+  }));
+
+  // Tangani interaksi / test like manual dari klik tombol di overlay
+  ws.on('message', (message) => {
+    try {
+      const data = JSON.parse(message);
+      if (data.type === 'test_like') {
+        const inc = parseInt(data.count || 10, 10);
+        for (const u in accountStates) {
+          accountStates[u].likeTotal = (accountStates[u].likeTotal || 0) + inc;
+          break;
+        }
+        const combined = getCombinedTotalLikes();
+        console.log(`[Test Like] 👆 Klik manual overlay: +${inc} like | Total Gabungan: ${combined}`);
+        broadcast({
+          type: 'like',
+          likeCount: inc,
+          totalLikeCount: combined,
+          user: 'Streamer (Test)',
+          streamHost: 'Manual'
+        });
+      }
+    } catch (e) {}
+  });
+
   ws.on('close', () => {
     connectedClients.delete(ws);
   });
@@ -125,7 +160,7 @@ function monitorAccount(cleanUsername) {
     }
 
     const tiktokLive = new TikTokLiveConnection(cleanUsername, {
-      processInitialData: true,
+      processInitialData: false,
       enableExtendedGiftInfo: false
     });
     state.conn = tiktokLive;
@@ -156,17 +191,24 @@ function monitorAccount(cleanUsername) {
 
     // Event: Penonton memberi like / tap-tap layar
     tiktokLive.on(WebcastEvent.LIKE || 'like', (data) => {
-      const incCount = data.likeCount || data.count || 1;
-      if (data.totalLikeCount || data.total) {
-        state.likeTotal = data.totalLikeCount || data.total;
+      const incCount = parseInt(data.likeCount || data.count || 1, 10) || 1;
+      const rawTotal = data.totalLikeCount || data.total;
+      
+      if (rawTotal !== undefined && rawTotal !== null && rawTotal !== '') {
+        const parsedTotal = parseInt(rawTotal, 10);
+        if (!isNaN(parsedTotal) && parsedTotal > 0) {
+          state.likeTotal = parsedTotal;
+        } else {
+          state.likeTotal = (state.likeTotal || 0) + incCount;
+        }
       } else {
         state.likeTotal = (state.likeTotal || 0) + incCount;
       }
 
       const combinedTotal = getCombinedTotalLikes();
-      const viewerName = (data.user && (data.user.uniqueId || data.user.nickname)) || data.uniqueId || 'penonton';
+      const viewerName = (data.user && (data.user.nickname || data.user.displayId || data.user.uniqueId)) || data.uniqueId || 'penonton';
 
-      console.log(`[Like: @${cleanUsername}] ❤️ +${incCount} like dari @${viewerName} | Akun: ${state.likeTotal} | Gabungan: ${combinedTotal}`);
+      console.log(`[Like: @${cleanUsername}] ❤️ +${incCount} like dari ${viewerName} | Akun: ${state.likeTotal} | Gabungan: ${combinedTotal}`);
       broadcast({
         type: 'like',
         likeCount: incCount,
@@ -178,10 +220,11 @@ function monitorAccount(cleanUsername) {
 
     // Event: Update statistik room
     tiktokLive.on(WebcastEvent.ROOM_USER || 'roomUser', (data) => {
-      if (data.viewerCount) {
+      const viewerCount = parseInt(data.viewerCount || data.totalUser || data.total || 0, 10);
+      if (viewerCount > 0) {
         broadcast({
           type: 'stats',
-          viewerCount: data.viewerCount,
+          viewerCount: viewerCount,
           streamHost: cleanUsername
         });
       }

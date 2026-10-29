@@ -1291,21 +1291,29 @@
         wsSync.onmessage = (event) => {
           try {
             const msg = JSON.parse(event.data);
-            if (msg.type === 'like') {
-              if (msg.totalLikeCount) {
-                likeCount = msg.totalLikeCount;
-              } else if (msg.likeCount) {
-                likeCount += msg.likeCount;
+            if (msg.type === 'like' || msg.type === 'init') {
+              const inc = parseInt(msg.likeCount, 10) || 0;
+              const total = parseInt(msg.totalLikeCount, 10);
+              
+              if (!isNaN(total) && total > 0) {
+                likeCount = total;
+              } else if (inc > 0) {
+                likeCount += inc;
               }
+              localStorage.setItem('mlbb_like_count', likeCount.toString());
               updateLikeDisplay();
 
-              const heartsCount = Math.min(msg.likeCount || 2, 6);
-              for (let i = 0; i < heartsCount; i++) {
-                setTimeout(() => spawnHeart(true), i * 70);
+              if (inc > 0) {
+                const heartsCount = Math.min(inc || 2, 6);
+                for (let i = 0; i < heartsCount; i++) {
+                  setTimeout(() => spawnHeart(true), i * 70);
+                }
               }
             } else if (msg.type === 'stats') {
-              if (msg.totalLikeCount) {
-                likeCount = msg.totalLikeCount;
+              const total = parseInt(msg.totalLikeCount, 10);
+              if (!isNaN(total) && total > 0) {
+                likeCount = total;
+                localStorage.setItem('mlbb_like_count', likeCount.toString());
                 updateLikeDisplay();
               }
             }
@@ -1329,16 +1337,16 @@
 
     initTikTokLiveSync();
 
-    // Auto spawn heart setiap 2.2 detik (HANYA AKTIF JIKA TIDAK TERHUBUNG KE LIVE SYNC)
+    // Spawn heart lembut berkala (animasi tetap hidup layaknya TikTok Live, angka like disinkronkan saat live)
     setInterval(() => {
+      spawnHeart(false);
       if (!isLiveSynced) {
-        spawnHeart(false);
         likeCount += Math.floor(Math.random() * 4) + 1;
         updateLikeDisplay();
       }
-    }, 2200);
+    }, 2800);
 
-    // Interactive Tap / Click: burst 5 hearts & tambah like
+    // Interactive Tap / Click: burst 5 hearts & tambah like (+ sync ke semua layar)
     if (tapShareWidget) {
       tapShareWidget.addEventListener('click', () => {
         for (let i = 0; i < 5; i++) {
@@ -1347,6 +1355,9 @@
         likeCount += 15;
         localStorage.setItem('mlbb_like_count', likeCount.toString());
         updateLikeDisplay();
+        if (wsSync && wsSync.readyState === 1) {
+          wsSync.send(JSON.stringify({ type: 'test_like', count: 15 }));
+        }
       });
     }
 
